@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colégio Uno Sales | Educ Lead</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'el-black':  '#0A0A0A',
+                        'el-gray':   '#111111',
+                        'el-orange': '#E8821E',
+                        'el-white':  '#FFFFFF',
+                    },
+                    fontFamily: {
+                        display: ['Inter', 'sans-serif'],
+                        sans:    ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { scroll-behavior: smooth; }
+        ::selection { background: #E8821E; color: #0A0A0A; }
+        body { font-family: 'Inter', sans-serif; background: #F5EFE7; color: #1a1a1a; margin: 0; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #F5EFE7; }
+        ::-webkit-scrollbar-thumb { background: #E8821E; border-radius: 10px; }
+
+        .gradient-text {
+            color: #1a1a1a;
+        }
+
+        .nav-link { color: #0A0F2E; transition: color 0.2s; text-decoration: none; }
+        .nav-link:hover { color: #E8821E; }
+
+        .feature-card {
+            border: 1px solid rgba(26,26,26,0.1);
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 32px 24px;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            border-color: rgba(232,130,30,0.3);
+            transform: translateY(-3px);
+        }
+
+        .rank-row {
+            border: 1px solid rgba(26,26,26,0.1);
+            transition: all 0.25s ease;
+            border-radius: 16px;
+        }
+        .rank-row:hover { border-color: rgba(232,130,30,0.25); background: rgba(26,26,26,0.02); }
+
+        .bar-fill {
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(to right, #E8821E, #FFC266);
+        }
+        .bar-bg {
+            height: 4px;
+            border-radius: 999px;
+            background: rgba(26,26,26,0.08);
+        }
+
+        @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.4} }
+        .live-dot { animation: pulse-dot 1.5s ease-in-out infinite; }
+
+        @keyframes trackUp   { from{transform:translateY(0)}    to{transform:translateY(-50%)} }
+        @keyframes trackDown { from{transform:translateY(-50%)} to{transform:translateY(0)} }
+        .track-up   { animation: trackUp   26s linear infinite; }
+        .track-down { animation: trackDown 26s linear infinite; }
+
+        /* pilares pedagógicos (clone RED HOUSE) */
+        .pilar-tab { text-align:left; font-weight:900; font-size:14px; padding:16px 24px; border-radius:999px; border:1.5px solid #A98F5C; background:#fff; color:#2a2a2a; cursor:pointer; transition:.2s; }
+        .pilar-tab.active { background:rgba(232,130,30,0.08); border-color:#E8821E; color:#1a1a1a; }
+        .pilares-grid { grid-template-columns: 1fr; }
+        @media (min-width:1024px) { .pilares-grid { grid-template-columns: 300px 1fr; } }
+
+        /* nossa identidade (clone RED HOUSE) */
+        .identidade-shield { clip-path: polygon(0 0, 100% 0, 100% 62%, 50% 100%, 0 62%); background:#fff; border:1.5px solid #A98F5C; color:#2a2a2a; cursor:pointer; transition:.2s; padding:28px 20px 42px; text-align:center; }
+        .identidade-shield.active { background:rgba(232,130,30,0.08); border-color:#E8821E; color:#1a1a1a; }
+        .identidade-subitem { padding:18px 20px; border-radius:12px; border-left:3px solid transparent; cursor:pointer; transition:.2s; }
+        .identidade-subitem.active { border-left-color:#E8821E; background:rgba(232,130,30,0.08); }
+        .identidade-acc-pill { display:flex; align-items:center; gap:14px; width:100%; text-align:left; background:#fff; border:1.5px solid #A98F5C; border-radius:999px; padding:14px 18px; cursor:pointer; }
+        .identidade-acc-toggle { margin-left:auto; width:26px; height:26px; border-radius:50%; background:#A98F5C; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0; }
+
+        /* mobile menu animation */
+        .site-header { background:#F5EFE7; border-bottom:1px solid rgba(26,26,26,0.08); transition:background .3s ease, border-color .3s ease; }
+        .site-header.menu-open .mobile-menu-btn { display:none; }
+        .mobile-menu-panel { max-height:0; overflow:hidden; opacity:0; transition:max-height .8s ease, opacity .5s ease; }
+        .mobile-menu-panel.open { max-height:600px; opacity:1; }
+        .mobile-menu-item { opacity:0; transform:translateY(14px); transition:opacity .55s ease, transform .55s ease; }
+        .mobile-menu-panel.open .mobile-menu-item { opacity:1; transform:translateY(0); }
+        .mobile-menu-panel.open .mobile-menu-item:nth-child(1) { transition-delay: .18s; }
+        .mobile-menu-panel.open .mobile-menu-item:nth-child(2) { transition-delay: .40s; }
+        .mobile-menu-panel.open .mobile-menu-item:nth-child(3) { transition-delay: .62s; }
+        .mobile-menu-panel.open .mobile-menu-item:nth-child(4) { transition-delay: .84s; }
+        .mobile-menu-panel.open .mobile-menu-item:nth-child(5) { transition-delay: 1.06s; }
+        .mobile-menu-panel.open .mobile-menu-item:nth-child(6) { transition-delay: 1.28s; }
+
+        /* captação — formulário multi-step (inspirado em Marista Brasil, adaptado à paleta do site) */
+        .captacao-field { border-radius:10px; padding:13px 18px; border:1px solid rgba(26,26,26,0.15); background:rgba(26,26,26,0.04); font-size:15px; width:100%; color:#1a1a1a; font-family:Inter,sans-serif; outline:none; transition:border-color .2s; }
+        .captacao-field:focus { border-color:#E8821E; }
+        .captacao-field option { background:#FFFFFF; color:#1a1a1a; }
+        select.captacao-field { font-size:13px; padding-left:14px; padding-right:8px; }
+        .captacao-check-row { display:flex; align-items:flex-start; gap:10px; cursor:pointer; }
+        .captacao-check-row input { margin-top:3px; width:16px; height:16px; flex-shrink:0; accent-color:#0A0F2E; }
+        .captacao-step-circle { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:13px; border:1.5px solid rgba(26,26,26,0.2); color:rgba(26,26,26,0.4); transition:.3s; flex-shrink:0; }
+        .captacao-step.active .captacao-step-circle { background:linear-gradient(135deg, #060918, #0A0F2E); border-color:#060918; color:#fff; }
+        .captacao-step.done .captacao-step-circle { border-color:#0A0F2E; color:#0A0F2E; }
+        .captacao-step-line { flex:1; height:1.5px; background:rgba(26,26,26,0.15); margin:0 8px; transition:.3s; }
+        .captacao-step-line.done { background:#0A0F2E; }
+        .captacao-student-block + .captacao-student-block { margin-top:14px; padding-top:14px; border-top:1px dashed rgba(26,26,26,0.15); }
+
+        /* captação — dropdown customizado (substitui <select> nativo pra controlar cor de seleção) */
+        .captacao-select-wrap { position:relative; }
+        .captacao-select-trigger { display:flex; align-items:center; justify-content:space-between; gap:8px; cursor:pointer; text-align:left; font-family:Inter,sans-serif; color:rgba(26,26,26,0.45); font-size:13px; padding-left:14px; padding-right:10px; }
+        .captacao-select-label { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .captacao-select-trigger.has-value { color:#1a1a1a; }
+        .captacao-select-trigger svg { flex-shrink:0; transition:transform .2s; }
+        .captacao-select-trigger.open svg { transform:rotate(180deg); }
+        .captacao-select-panel { position:absolute; top:calc(100% + 6px); left:0; right:0; background:#fff; border:1px solid rgba(26,26,26,0.15); border-radius:10px; box-shadow:0 12px 28px rgba(0,0,0,0.14); z-index:50; max-height:220px; overflow-y:auto; display:none; }
+        .captacao-select-panel.open { display:block; }
+        .captacao-select-option { padding:9px 14px; font-size:12.5px; white-space:nowrap; cursor:pointer; color:#1a1a1a; }
+        .captacao-select-option:hover, .captacao-select-option.active { background:#0A0F2E; color:#fff; }
+
+        /* diferenciais — badge recortado + flip no hover (inspirado em SOMOS Educação) */
+        /* scroll/marquee (mesma técnica da seção 7 do doc de referência) */
+        @keyframes diferenciaisScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .diferenciais-track-anim { animation: diferenciaisScroll 38s linear infinite; }
+        #diferenciais:hover #diferenciais-track { animation-play-state: paused; }
+        .diferenciais-flip { perspective:1200px; height:260px; width:280px; flex-shrink:0; }
+        .diferenciais-flip-inner { position:relative; width:100%; height:100%; transition:transform .6s cubic-bezier(.4,.2,.2,1); transform-style:preserve-3d; }
+        .diferenciais-flip:hover .diferenciais-flip-inner { transform:rotateY(180deg); }
+        .diferenciais-card, .diferenciais-card-back { position:absolute; inset:0; border-radius:18px; backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+        .diferenciais-card { background:#fff; padding:32px 20px 28px; text-align:center; }
+        .diferenciais-card-back { transform:rotateY(180deg); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:28px 24px; text-align:center; }
+        .diferenciais-badge { position:relative; width:92px; height:92px; margin:0 auto; }
+        .diferenciais-badge-main { position:absolute; inset:0; border-radius:50%; }
+        .diferenciais-badge-bite { position:absolute; width:38px; height:38px; border-radius:50%; background:#fff; top:-5px; right:-5px; z-index:2; }
+        .diferenciais-badge-inner { position:absolute; width:50px; height:50px; border-radius:50%; background:#fff; top:52%; left:46%; transform:translate(-50%,-50%); z-index:3; display:flex; align-items:center; justify-content:center; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<!-- ── HEADER ────────────────────────────────────────────────── -->
+<header id="site-header" class="site-header fixed top-0 w-full z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between md:justify-center h-18" style="height:72px;">
+
+            <!-- Nav -->
+            <nav class="hidden md:flex items-center gap-8 text-xs font-black">
+                <a href="#quem-somos" class="nav-link">Quem Somos</a>
+                <a href="#matriculas" class="nav-link">Níveis de Ensino</a>
+                <a href="#novidades" class="nav-link">Novidades</a>
+                <a href="https://portal.colegiounosales.com.br" target="_blank" class="nav-link">Portal Uno Sales</a>
+            </nav>
+
+            <!-- Mobile menu btn -->
+            <button class="mobile-menu-btn md:hidden text-[#1a1a1a]" onclick="toggleMobileMenu()">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="mobile-menu-panel md:hidden" style="background:#F5EFE7;">
+        <div class="relative pt-4 pb-2">
+            <button onclick="toggleMobileMenu()" aria-label="Fechar menu" class="absolute" style="right:20px;top:14px;color:#8a8378;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="px-6 pb-6 pt-2" style="display:flex;flex-direction:column;gap:22px;">
+            <a href="#quem-somos"     class="mobile-menu-item font-bold" style="color:#0A0F2E;font-size:18px;">Quem Somos</a>
+            <a href="#matriculas"     class="mobile-menu-item font-bold" style="color:#0A0F2E;font-size:18px;">Níveis de Ensino</a>
+            <a href="#novidades"      class="mobile-menu-item font-bold" style="color:#0A0F2E;font-size:18px;">Novidades</a>
+            <a href="https://portal.colegiounosales.com.br" target="_blank" class="mobile-menu-item font-bold" style="color:#0A0F2E;font-size:18px;">Portal Uno Sales</a>
+        </div>
+    </div>
+</header>
+
+<main class="flex-grow">
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<section id="hero" class="flex items-end justify-start pt-28 pb-20 relative overflow-hidden" style="min-height:100vh;">
+
+    <!-- vídeo de fundo -->
+    <video class="absolute inset-0 w-full h-full object-cover" autoplay loop muted playsinline style="opacity:.9;">
+        <source src="https://www.escolamobile.com.br/wp-content/uploads/2024/05/240208_011_valores_v04_SITE.mp4" type="video/mp4">
+    </video>
+
+    <!-- gradiente sutil, só pra transição com a seção de baixo -->
+    <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 30%);"></div>
+
+    <!-- seta scroll -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center" style="color:rgba(255,255,255,0.2);">
+        <svg class="w-5 h-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+        </svg>
+    </div>
+</section>
+
+<!-- ── QUEM SOMOS ──────────────────────────────────────────────── -->
+<section id="quem-somos" class="py-24" style="background:#F5EFE7;">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+            <div>
+                <h2 class="font-bold uppercase tracking-normal mb-6" style="font-size:clamp(32px,4vw,48px);line-height:1.1;">
+                    Um novo conceito<br>de <span class="gradient-text">escola.</span>
+                </h2>
+                <p class="text-black/65 font-light leading-relaxed mb-4" style="font-size:18px;">
+                    Idealizado por experientes pedagogos e administradores, e contando com uma equipe multidisciplinar de educadores especialistas, o Colégio UNO Sales surge no Setor Leste Vila Nova como oportuna resposta aos anseios e necessidades educativas da sociedade contemporânea.
+                </p>
+                <p class="text-black/65 font-light leading-relaxed mb-8" style="font-size:18px;">
+                    Com um projeto pedagógico revolucionário que contempla a educação exigida pelo século XXI, o Colégio UNO Sales traz para Goiânia um novo conceito de escola, de educação, de educando. Dispondo de uma plataforma educacional e uma metodologia que trabalha por competências, conta com amplo espaço físico, salas climatizadas e uma atmosfera digital estimulante com a utilização de iPads como ferramenta educacional.
+                </p>
+            </div>
+
+            <div class="rounded-2xl overflow-hidden" style="border:1px solid rgba(26,26,26,0.12);">
+                <img src="https://www.unosales.com.br/adm/uploads/image/galeria/frente_col_gio_2.jpg"
+                     class="w-full h-auto block" alt="Colégio Uno Sales" loading="lazy">
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ── MATRÍCULAS (etapas) ─────────────────────────────────────── -->
+<section id="matriculas" class="py-24" style="background:#EFE6D8;">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="mb-14 text-center">
+            <p class="text-el-orange text-xs font-black uppercase tracking-[0.35em] mb-4">Matrículas Abertas</p>
+            <h2 class="font-bold uppercase tracking-normal mb-4" style="font-size:clamp(32px,4.5vw,52px);line-height:1.05;">
+                Níveis de Ensino
+            </h2>
+            <p class="text-black/65 font-light" style="font-size:18px;">Anos iniciais ao Ensino Médio</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="relative rounded-2xl overflow-hidden" style="aspect-ratio:3/4;">
+                <img src="https://images.pexels.com/photos/8471876/pexels-photo-8471876.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+                     class="absolute inset-0 w-full h-full object-cover" alt="Ensino Fundamental I" loading="lazy">
+                <div class="absolute left-4 right-4 bottom-4 rounded-xl px-5 py-4" style="background:rgba(10,10,10,0.88);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.08);">
+                    <h3 class="font-black text-white text-sm uppercase tracking-tight whitespace-nowrap">Ensino Fundamental I</h3>                </div>
+            </div>
+
+            <div class="relative rounded-2xl overflow-hidden" style="aspect-ratio:3/4;">
+                <img src="https://images.pexels.com/photos/5905445/pexels-photo-5905445.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+                     class="absolute inset-0 w-full h-full object-cover" alt="Ensino Fundamental II" loading="lazy">
+                <div class="absolute left-4 right-4 bottom-4 rounded-xl px-5 py-4" style="background:rgba(10,10,10,0.88);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.08);">
+                    <h3 class="font-black text-white text-sm uppercase tracking-tight whitespace-nowrap">Ensino Fundamental II</h3>                </div>
+            </div>
+
+            <div class="relative rounded-2xl overflow-hidden" style="aspect-ratio:3/4;">
+                <img src="https://images.pexels.com/photos/4145354/pexels-photo-4145354.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&fit=crop"
+                     class="absolute inset-0 w-full h-full object-cover" alt="Ensino Médio" loading="lazy">
+                <div class="absolute left-4 right-4 bottom-4 rounded-xl px-5 py-4" style="background:rgba(10,10,10,0.88);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.08);">
+                    <h3 class="font-black text-white text-sm uppercase tracking-tight">Ensino Médio</h3>                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</section>
+
+<!-- ── SEIS PILARES PEDAGÓGICOS (clone RED HOUSE) ───────────────── -->
+<section id="pilares" class="py-24" style="background:#F5EFE7;">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center mb-14">
+            <h2 class="font-bold uppercase tracking-normal" style="color:#1a1a1a;font-size:clamp(28px,4vw,44px);line-height:1.1;">
+                Os Seis Pilares Pedagógicos
+            </h2>
+            <p class="mt-4 max-w-2xl mx-auto" style="color:#5a5248;font-size:16px;line-height:1.6;">
+                Os pilares pedagógicos constituem a base de nossas Metodologias de Ensino e Aprendizagem.
+            </p>
+        </div>
+
+        <div class="pilares-grid" style="display:grid;gap:2rem;align-items:start;">
+
+            <!-- tabs -->
+            <div id="pilares-tabs" style="display:flex;flex-direction:column;gap:12px;"></div>
+
+            <!-- painel -->
+            <div style="position:relative;min-height:340px;">
+                <svg viewBox="0 0 400 200" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.05));">
+                    <path d="M40,0 L386,0 Q400,0 400,14 L400,186 Q400,200 386,200 L40,200 L0,100 Z"
+                          fill="#F5EFE7" stroke="#F6CDA5" stroke-width="2.5"></path>
+                </svg>
+                <div style="position:relative;z-index:10;padding:44px 40px 44px 68px;">
+                    <h3 id="pilar-titulo" class="font-black" style="color:#0A0F2E;font-size:clamp(22px,2.6vw,30px);line-height:1.15;"></h3>
+                    <p id="pilar-texto" class="mt-4" style="color:#3a352c;font-size:15px;line-height:1.7;max-width:520px;"></p>
+                    <a href="https://wa.me/5562982587808?text=Quero%20agendar%20uma%20reunião%20sobre%20a%20proposta%20pedagógica!"
+                       target="_blank"
+                       class="font-black text-xs uppercase tracking-wider"
+                       style="display:inline-block;margin-top:32px;background:linear-gradient(135deg, #060918, #0A0F2E);color:#fff;padding:12px 26px;border-radius:999px;text-decoration:none;">
+                        Agende uma reunião
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- ── DESTAQUES (carrossel + estatísticas) ────────────────────── -->
+<section id="destaques" class="relative" style="background:#EFE6D8;">
+
+    <div class="relative overflow-hidden" style="height:60vh;min-height:380px;max-height:560px;">
+        <div id="destaques-track" class="flex h-full transition-transform duration-700 ease-out" style="width:300%;">
+            <div class="h-full relative" style="width:33.3334%;">
+                <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_101232.jpg" class="w-full h-full object-cover" alt="Colégio Uno Sales" loading="lazy">
+                <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.1) 55%, rgba(10,10,10,0.3) 100%);"></div>
+            </div>
+            <div class="h-full relative" style="width:33.3334%;">
+                <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0050.jpg" class="w-full h-full object-cover" alt="Colégio Uno Sales" loading="lazy">
+                <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.1) 55%, rgba(10,10,10,0.3) 100%);"></div>
+            </div>
+            <div class="h-full relative" style="width:33.3334%;">
+                <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_084648.jpg" class="w-full h-full object-cover" alt="Colégio Uno Sales" loading="lazy">
+                <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.1) 55%, rgba(10,10,10,0.3) 100%);"></div>
+            </div>
+        </div>
+
+        <button onclick="destaquesNav(-1)" aria-label="Anterior" class="absolute left-4 top-1/2 -translate-y-1/2 z-10" style="width:44px;height:44px;border-radius:50%;background:rgba(10,10,10,0.5);border:1px solid rgba(255,255,255,0.15);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button onclick="destaquesNav(1)" aria-label="Próximo" class="absolute right-4 top-1/2 -translate-y-1/2 z-10" style="width:44px;height:44px;border-radius:50%;background:rgba(10,10,10,0.5);border:1px solid rgba(255,255,255,0.15);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
+
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+            <button onclick="destaquesGo(0)" class="destaques-dot" style="width:20px;height:8px;border-radius:100px;background:#E8821E;border:none;padding:0;cursor:pointer;transition:.3s;"></button>
+            <button onclick="destaquesGo(1)" class="destaques-dot" style="width:8px;height:8px;border-radius:100px;background:rgba(255,255,255,0.3);border:none;padding:0;cursor:pointer;transition:.3s;"></button>
+            <button onclick="destaquesGo(2)" class="destaques-dot" style="width:8px;height:8px;border-radius:100px;background:rgba(255,255,255,0.3);border:none;padding:0;cursor:pointer;transition:.3s;"></button>
+        </div>
+    </div>
+
+    <!-- card de estatísticas, sobrepondo a base do carrossel -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative" style="margin-top:-36px;z-index:20;">
+        <div class="grid grid-cols-1 sm:grid-cols-3 rounded-2xl overflow-hidden" style="background:#F5EFE7;border:1px solid rgba(26,26,26,0.1);">
+            <div class="py-7 px-6 text-center border-b sm:border-b-0 sm:border-r border-black/10">
+                <p class="font-black text-el-orange" style="font-size:22px;line-height:1.2;">Nº1</p>
+                <p class="text-black/60 text-xs mt-2 leading-relaxed">Colégio mais bem avaliado da região Leste de Goiânia</p>
+            </div>
+            <div class="py-7 px-6 text-center border-b sm:border-b-0 sm:border-r border-black/10">
+                <p class="font-black text-el-orange" style="font-size:22px;line-height:1.2;">4.9★</p>
+                <p class="text-black/60 text-xs mt-2 leading-relaxed">Avaliação média dos pais</p>
+            </div>
+            <div class="py-7 px-6 text-center">
+                <p class="font-black text-el-orange" style="font-size:22px;line-height:1.2;">Nacional</p>
+                <p class="text-black/60 text-xs mt-2 leading-relaxed">Destaque em olimpíadas estudantis</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="pb-16"></div>
+</section>
+
+<!-- ── DIFERENCIAIS (badges inspirados em SOMOS Educação) ───────── -->
+<section id="diferenciais" class="py-20 overflow-hidden" style="background:#F5EFE7;">
+    <div id="diferenciais-track" class="flex items-stretch gap-6 diferenciais-track-anim" style="width:max-content;"></div>
+</section>
+
+<!-- ── NOSSA IDENTIDADE (clone RED HOUSE) ───────────────────────── -->
+<section id="identidade" class="py-24" style="background:#EFE6D8;">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center mb-14">
+            <h2 class="font-bold uppercase tracking-normal" style="color:#1a1a1a;font-size:clamp(28px,4vw,44px);line-height:1.1;">
+                Nossa Identidade
+            </h2>
+            <p class="mt-4" style="color:#5a5248;font-size:16px;">Nossa essência traduzida em uma equação.</p>
+        </div>
+
+        <!-- ░░ DESKTOP ░░ -->
+        <div class="hidden lg:block">
+            <div class="flex items-center justify-center gap-4 mb-16" id="identidade-shields"></div>
+            <div class="grid grid-cols-2 gap-12 items-stretch">
+                <div class="rounded-2xl overflow-hidden" style="aspect-ratio:4/3;">
+                    <img id="identidade-img" class="w-full h-full object-cover" alt="" loading="lazy">
+                </div>
+                <div class="flex flex-col justify-center gap-2" id="identidade-itens"></div>
+            </div>
+        </div>
+
+        <!-- ░░ MOBILE (acordeão) ░░ -->
+        <div class="lg:hidden flex flex-col gap-6" id="identidade-accordion"></div>
+
+    </div>
+</section>
+
+<!-- ── NOVIDADES (carrossel campus, inspirado em Marista Goiânia) ── -->
+<section id="novidades" class="py-24" style="background:#F5EFE7;">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="mb-14 text-center">
+            <p class="text-el-orange text-xs font-black uppercase tracking-[0.35em] mb-4">Novidades</p>
+            <h2 class="font-bold uppercase tracking-normal" style="font-size:clamp(32px,4.5vw,52px);line-height:1.05;">
+                Conheça nosso <span class="gradient-text">campus.</span>
+            </h2>
+        </div>
+
+        <div class="relative max-w-4xl mx-auto">
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 items-stretch rounded-2xl overflow-hidden" style="box-shadow:0 20px 50px rgba(0,0,0,0.1);">
+
+                <!-- imagem -->
+                <div class="relative overflow-hidden" style="min-height:340px;">
+                    <img id="novidades-img" class="absolute inset-0 w-full h-full object-cover" alt="Colégio Uno Sales" loading="lazy">
+                </div>
+
+                <!-- painel de texto -->
+                <div class="flex flex-col justify-center" style="background:#fff;padding:44px 40px;min-height:340px;">
+                    <h3 id="novidades-titulo" class="font-black" style="font-size:clamp(22px,2.6vw,28px);line-height:1.2;"></h3>
+                    <p id="novidades-texto" class="mt-4 text-black/60 font-light" style="font-size:15px;line-height:1.7;"></p>
+                </div>
+
+            </div>
+
+            <!-- setas de navegação -->
+            <button onclick="novidadesNav(-1)" aria-label="Anterior" class="absolute z-10" style="left:-22px;top:50%;translate:0 -50%;width:44px;height:44px;border-radius:50%;background:#0A0F2E;border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <button onclick="novidadesNav(1)" aria-label="Próximo" class="absolute z-10" style="right:-22px;top:50%;translate:0 -50%;width:44px;height:44px;border-radius:50%;background:#0A0F2E;border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </button>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- ── GALERIA ────────────────────────────────────────────────── -->
+<section id="galeria" class="py-24" style="background:#EFE6D8;">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+            <!-- scrolling columns -->
+            <div class="flex gap-4 overflow-hidden rounded-2xl" style="height:480px;" aria-hidden="true">
+                <div class="flex-1 overflow-hidden">
+                    <div class="track-up flex flex-col gap-3">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_101232.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0050.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_084648.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/frente_col_gio_2.jpg"    class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_101232.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0050.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_084648.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/frente_col_gio_2.jpg"    class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                    </div>
+                </div>
+                <div class="flex-1 overflow-hidden">
+                    <div class="track-down flex flex-col gap-3">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0049.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_100908.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0043.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0038.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0049.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_100908.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0043.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0038.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <!-- copy -->
+            <div>
+                <h2 class="font-bold uppercase tracking-normal mb-6" style="font-size:clamp(32px,4vw,48px);line-height:1.1;">
+                    Momentos para compartilhar para sempre.
+                </h2>
+                <p class="text-black/65 font-light leading-relaxed mb-8" style="font-size:18px;">
+                    Clique para acessar e baixar suas fotos.
+                </p>
+                <a href="https://wa.me/5562982587808?text=Quero%20saber%20mais%20sobre%20a%20galeria%20digital!"
+                   target="_blank"
+                   class="flex items-center justify-center gap-2 font-black text-sm px-7 py-4 rounded-xl transition-all hover:opacity-90 mx-auto"
+                   style="background:linear-gradient(135deg, #060918, #0A0F2E);color:#fff;width:fit-content;">
+                    Baixar fotos
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ── CAPTAÇÃO (formulário multi-step) ───────────────────────────── -->
+<section id="captacao" class="py-24" style="background:#F5EFE7;">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="rounded-2xl overflow-hidden p-8 md:p-12" style="border:1px solid rgba(232,130,30,0.15);background:#FFFFFF;">
+
+            <div class="text-center mb-8">
+                <h2 class="font-bold uppercase tracking-normal mb-3" style="font-size:clamp(24px,3.5vw,32px);line-height:1.1;">Agende sua visita</h2>
+                <p class="text-black/60 font-light" style="font-size:15px;">Venha conhecer nossa estrutura e conversar sobre a educação do seu filho.</p>
+            </div>
+
+            <!-- stepper -->
+            <div class="flex items-center mb-10" id="captacao-stepper">
+                <div class="captacao-step active flex flex-col items-center gap-2" data-step="1">
+                    <div class="captacao-step-circle">01</div>
+                </div>
+                <div class="captacao-step-line" id="captacao-line-1"></div>
+                <div class="captacao-step flex flex-col items-center gap-2" data-step="2">
+                    <div class="captacao-step-circle">02</div>
+                </div>
+            </div>
+
+            <form id="captacao-form">
+
+                <!-- passo 1: responsável -->
+                <div id="captacao-step-1" class="flex flex-col gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <input type="text" id="cap-nome" class="captacao-field" placeholder="Nome do responsável" required>
+                        <input type="text" id="cap-sobrenome" class="captacao-field" placeholder="Sobrenome do responsável" required>
+                    </div>
+                    <label for="cap-whatsapp" class="font-bold text-black/70" style="font-size:13px;margin-bottom:-8px;">WhatsApp do responsável</label>
+                    <input type="tel" id="cap-whatsapp" class="captacao-field" placeholder="(xx) xxxxx-xxxx" required>
+
+                    <button type="button" onclick="captacaoIrPara(2)"
+                            class="font-black text-sm uppercase tracking-wider px-7 py-3.5 rounded-lg transition-all hover:opacity-90 mt-2"
+                            style="background:linear-gradient(135deg, #060918, #0A0F2E);color:#fff;">
+                        Avançar
+                    </button>
+                </div>
+
+                <!-- passo 2: estudante(s) -->
+                <div id="captacao-step-2" class="flex-col gap-4" style="display:none;">
+                    <div id="captacao-estudantes"></div>
+
+                    <label class="captacao-check-row text-black/65 mt-2" style="font-size:13px;line-height:1.5;">
+                        <input type="checkbox" id="cap-consentimento" required>
+                        <span>Aceito comunicar meus dados neste formulário e receber contato para agendamento da visita no Colégio.</span>
+                    </label>
+
+                    <div class="flex gap-3 mt-2">
+                        <button type="button" onclick="captacaoIrPara(1)"
+                                class="font-black text-sm uppercase tracking-wider px-6 py-3.5 rounded-lg transition-all hover:opacity-90"
+                                style="background:transparent;color:rgba(26,26,26,0.65);border:1px solid rgba(26,26,26,0.2);">
+                            Voltar
+                        </button>
+                        <button type="submit"
+                                class="flex-1 font-black text-sm uppercase tracking-wider px-7 py-3.5 rounded-lg transition-all hover:opacity-90"
+                                style="background:linear-gradient(135deg, #060918, #0A0F2E);color:#fff;">
+                            Enviar
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+            <!-- estado de sucesso -->
+            <div id="captacao-sucesso" class="text-center py-6" style="display:none;">
+                <p class="font-black uppercase tracking-tight mb-2" style="font-size:22px;">Recebemos seus dados!</p>
+                <p class="text-black/65 font-light" style="font-size:15px;">Nossa equipe vai entrar em contato em breve para agendar sua visita.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+</main>
+
+
+<!-- ── WHATSAPP POPUP ─────────────────────────────────────────── -->
+<div id="wa-overlay" onclick="closeWa()" class="fixed inset-0 z-[90] bg-black/50 backdrop-blur-sm hidden"></div>
+
+<div id="wa-popup" class="fixed bottom-24 right-5 z-[100] w-80 rounded-2xl overflow-hidden shadow-2xl hidden" style="box-shadow:0 20px 60px rgba(0,0,0,0.7);">
+    <div class="flex items-center justify-between px-5 py-4" style="background:#25D366;">
+        <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 fill-white flex-shrink-0">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.534 5.845L.054 23.25a.75.75 0 0 0 .917.94l5.562-1.461A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.528-5.218-1.444l-.374-.224-3.876 1.018 1.037-3.78-.245-.39A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+            </svg>
+            <span class="font-black text-white text-base">Educ Lead</span>
+        </div>
+        <button onclick="closeWa()" class="text-white/80 hover:text-white transition-colors">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+    </div>
+    <div class="px-5 py-3 text-xs text-white/50 font-black uppercase tracking-wider" style="background:#1a1a1a;border-bottom:1px solid rgba(255,255,255,0.07);">
+        Fale com a equipe:
+    </div>
+    <div style="background:#111111;">
+        <a href="https://wa.me/5562982587808?text=Olá!%20Quero%20saber%20mais%20sobre%20o%20portal%20para%20o%20Colégio%20Uno%20Sales!"
+           target="_blank" rel="noopener"
+           class="flex items-center justify-between px-5 py-4 hover:bg-white/[0.04] transition-colors" style="text-decoration:none;">
+            <div>
+                <p class="font-black text-white text-sm">Cesar Marçal · Educ Lead</p>
+                <p class="text-white/35 text-[10px] uppercase tracking-widest mt-0.5">Clique para iniciar o chat</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 flex-shrink-0" style="fill:#25D366;">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.534 5.845L.054 23.25a.75.75 0 0 0 .917.94l5.562-1.461A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.528-5.218-1.444l-.374-.224-3.876 1.018 1.037-3.78-.245-.39A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+            </svg>
+        </a>
+    </div>
+</div>
+
+<button id="wa-btn" onclick="toggleWa()"
+    class="fixed bottom-5 right-5 z-[100] w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-transform hover:scale-110 active:scale-95"
+    style="background:#25D366;box-shadow:0 4px 20px rgba(37,211,102,0.5);">
+    <svg id="wa-icon-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.534 5.845L.054 23.25a.75.75 0 0 0 .917.94l5.562-1.461A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.528-5.218-1.444l-.374-.224-3.876 1.018 1.037-3.78-.245-.39A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+    </svg>
+    <svg id="wa-icon-close" class="w-6 h-6 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+</button>
+
+<script>
+// ── Nossa Identidade (shields + acordeão, clone RED HOUSE) ──────────
+const ICONE_TRADICAO = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>';
+const ICONE_INOVACAO = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.6.65 1.15 1.34 1.4 2.5"/></svg>';
+const ICONE_GOIANA   = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
+
+const IDENTIDADE = [
+    {
+        label: 'Tradicional', icone: ICONE_TRADICAO,
+        itens: [
+            { titulo: 'Décadas de experiência', texto: 'Uma trajetória consolidada na educação, construída com seriedade, compromisso e resultados consistentes ao longo dos anos.', img: 'https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_101232.jpg' },
+            { titulo: 'Valores sólidos', texto: 'Formamos alunos com base em princípios éticos, respeito e responsabilidade, preparando-os para a vida em sociedade.', img: 'https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0050.jpg' },
+            { titulo: 'Relação próxima com as famílias', texto: 'Uma escola que conhece cada aluno pelo nome e constrói uma parceria de confiança com pais e responsáveis.', img: 'https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_084648.jpg' },
+        ]
+    },
+    {
+        label: 'Inovadora', icone: ICONE_INOVACAO,
+        itens: [
+            { titulo: 'Metodologia atualizada', texto: 'Práticas pedagógicas modernas que unem tecnologia e ensino por competências, preparando o aluno para os desafios do futuro.', img: 'https://www.unosales.com.br/adm/uploads/image/galeria/frente_col_gio_2.jpg' },
+            { titulo: 'Ferramentas digitais', texto: 'Uso de plataformas educacionais e dispositivos como iPads para tornar o aprendizado mais dinâmico e interativo.', img: 'https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0049.jpg' },
+            { titulo: 'Educação em constante evolução', texto: 'Buscamos continuamente novas formas de ensinar, atualizando nossa proposta pedagógica junto com o mundo.', img: 'https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_100908.jpg' },
+        ]
+    },
+    {
+        label: 'Goiana', icone: ICONE_GOIANA,
+        itens: [
+            { titulo: 'Raízes em Goiânia', texto: 'Uma escola local, que entende as necessidades da nossa comunidade e das famílias do Setor Leste Vila Nova.', img: 'https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0043.jpg' },
+            { titulo: 'Compromisso com a região', texto: 'Contribuímos para a formação de cidadãos que valorizam e transformam positivamente a nossa cidade.', img: 'https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0038.jpg' },
+        ]
+    },
+];
+
+let identCatIdx = 0;
+let identSubIdx = 0;
+
+function identidadeRenderShields() {
+    const wrap = document.getElementById('identidade-shields');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    IDENTIDADE.forEach((cat, i) => {
+        const b = document.createElement('button');
+        b.className = 'identidade-shield font-black text-sm' + (i === identCatIdx ? ' active' : '');
+        b.style.width = '190px';
+        b.innerHTML = icone_wrap(cat.icone) + '<div class="mt-2">' + cat.label + '</div>';
+        b.onclick = () => { identCatIdx = i; identSubIdx = 0; identidadeRenderShields(); identidadeRenderDesktop(); };
+        wrap.appendChild(b);
+        if (i < IDENTIDADE.length - 1) {
+            const plus = document.createElement('span');
+            plus.className = 'font-black';
+            plus.style.cssText = 'color:#0A0F2E;font-size:24px;';
+            plus.textContent = '+';
+            wrap.appendChild(plus);
+        }
+    });
+}
+function icone_wrap(svg) { return '<div style="display:flex;justify-content:center;">' + svg + '</div>'; }
+
+function identidadeRenderDesktop() {
+    const cat = IDENTIDADE[identCatIdx];
+    document.getElementById('identidade-img').src = cat.itens[identSubIdx].img;
+    const wrap = document.getElementById('identidade-itens');
+    wrap.innerHTML = '';
+    cat.itens.forEach((it, i) => {
+        const div = document.createElement('div');
+        div.className = 'identidade-subitem' + (i === identSubIdx ? ' active' : '');
+        div.innerHTML = '<h4 class="font-black" style="color:#1a1a1a;font-size:18px;">' + it.titulo + '</h4>' +
+                         '<p style="color:#3a352c;font-size:14px;line-height:1.6;margin-top:6px;">' + it.texto + '</p>';
+        div.onclick = () => { identSubIdx = i; identidadeRenderDesktop(); };
+        wrap.appendChild(div);
+    });
+}
+
+let identOpenIdx = -1;
+function identidadeRenderAccordion() {
+    const wrap = document.getElementById('identidade-accordion');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    IDENTIDADE.forEach((cat, i) => {
+        const box = document.createElement('div');
+
+        const sign = document.createElement('div');
+        sign.className = 'text-center font-black';
+        sign.style.cssText = 'color:#0A0F2E;font-size:20px;margin-bottom:6px;';
+        sign.textContent = i === 0 ? '=' : '+';
+        box.appendChild(sign);
+
+        const pill = document.createElement('button');
+        pill.className = 'identidade-acc-pill font-black text-sm';
+        pill.style.color = '#2a2a2a';
+        pill.innerHTML = '<span style="color:#C21233;display:flex;">' + cat.icone + '</span><span>' + cat.label + '</span>' +
+                          '<span class="identidade-acc-toggle">' + (identOpenIdx === i ? '−' : '+') + '</span>';
+        pill.onclick = () => { identOpenIdx = (identOpenIdx === i ? -1 : i); identidadeRenderAccordion(); };
+        box.appendChild(pill);
+
+        if (identOpenIdx === i) {
+            const panel = document.createElement('div');
+            panel.className = 'flex flex-col gap-4';
+            panel.style.marginTop = '16px';
+            cat.itens.forEach(it => {
+                const card = document.createElement('div');
+                card.className = 'relative rounded-2xl overflow-hidden';
+                card.style.aspectRatio = '4/3';
+                card.innerHTML =
+                    '<img src="' + it.img + '" class="absolute inset-0 w-full h-full object-cover" alt="" loading="lazy">' +
+                    '<div class="absolute inset-0" style="background:linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 55%);"></div>' +
+                    '<div class="absolute left-0 right-0 bottom-0 p-5">' +
+                        '<h4 class="font-black text-white" style="font-size:17px;">' + it.titulo + '</h4>' +
+                        '<p class="text-white/80" style="font-size:13px;line-height:1.5;margin-top:6px;">' + it.texto + '</p>' +
+                    '</div>';
+                panel.appendChild(card);
+            });
+            box.appendChild(panel);
+        }
+
+        wrap.appendChild(box);
+    });
+}
+
+identidadeRenderShields();
+identidadeRenderDesktop();
+identidadeRenderAccordion();
+
+// ── Diferenciais (badges recortados, inspirado em SOMOS Educação) ───
+const DIFERENCIAIS = [
+    { cor: '#E8821E', icone: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5"/></svg>', titulo: 'Formação Integral', texto: 'Desenvolvemos o potencial acadêmico, emocional e social do estudante.' },
+    { cor: '#0baef8', icone: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M1 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>', titulo: 'Acompanhamento próximo', texto: 'Atenção individualizada para valorizar a trajetória do seu filho.' },
+    { cor: '#C21233', icone: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89 7 23l5-3 5 3-1.21-9.11"/></svg>', titulo: 'Excelência com valores', texto: 'Ensino forte que inspira escolhas éticas e cidadania.' },
+    { cor: '#A98F5C', icone: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>', titulo: 'Ambiente acolhedor', texto: 'Respeito, solidariedade e fé em uma comunidade que acolhe de verdade.' },
+];
+function diferenciaisRender() {
+    const track = document.getElementById('diferenciais-track');
+    if (!track) return;
+    const cardHtml = d =>
+        '<div class="diferenciais-flip">'
+      + '<div class="diferenciais-flip-inner">'
+
+      +   '<div class="diferenciais-card" style="border:1.5px solid ' + d.cor + ';">'
+      +     '<div class="diferenciais-badge">'
+      +       '<div class="diferenciais-badge-main" style="background:' + d.cor + ';"></div>'
+      +       '<div class="diferenciais-badge-bite"></div>'
+      +       '<div class="diferenciais-badge-inner" style="color:' + d.cor + ';">' + d.icone + '</div>'
+      +     '</div>'
+      +     '<h3 class="font-black mt-4" style="font-size:16px;">' + d.titulo + '</h3>'
+      +   '</div>'
+
+      +   '<div class="diferenciais-card-back" style="background:' + d.cor + ';">'
+      +     '<h3 class="font-black text-white" style="font-size:17px;">' + d.titulo + '</h3>'
+      +     '<p class="text-white/85 font-light mt-3" style="font-size:14px;line-height:1.6;">' + d.texto + '</p>'
+      +   '</div>'
+
+      + '</div>'
+      + '</div>';
+
+    // conteúdo duplicado 2x pra loop infinito sem salto (translateX -50%)
+    track.innerHTML = DIFERENCIAIS.map(cardHtml).join('') + DIFERENCIAIS.map(cardHtml).join('');
+}
+diferenciaisRender();
+
+// ── Pilares Pedagógicos (tabs, clone RED HOUSE) ─────────────────────
+const PILARES = [
+    { titulo: 'The Learner Profile', texto: 'Conjunto de dez competências e habilidades que são o eixo de nosso currículo e contemplam as dimensões cognitiva, social e emocional do aluno, constituindo a nossa proposição de valor: Learn to Know, Learn to Be, Learn to Do.' },
+    { titulo: 'Agency and Action', texto: 'Agency refere-se à capacidade dos alunos de agir de forma independente e fazer as próprias escolhas. Envolve a habilidade de tomar decisões e exercer influência sobre a própria vida. Action é o processo de colocar em prática os conhecimentos, habilidades e competências. Envolve resolver problemas do mundo real com pensamento crítico e criatividade.' },
+    { titulo: 'Currículo Modular', texto: 'A modularidade do currículo é essencial para dar maior flexibilidade na implementação dos processos educacionais e pedagógicos.' },
+    { titulo: 'Aprendizado Autêntico', texto: 'O Aprendizado Autêntico consiste no uso de metodologias pedagógicas de relevância e que já demonstraram eficácia nos processos de ensino e aprendizagem com base em evidências e pesquisas na área da Science of Learning.' },
+    { titulo: 'Avaliação Continuada', texto: 'A avaliação do aluno acontece de forma contínua com base na geração e coleta de evidências do aprendizado.' },
+    { titulo: 'Pedagogia Integrada', texto: 'Integra diferentes áreas do conhecimento e dimensões do desenvolvimento de forma interdisciplinar, considerando o aluno como agente ativo no processo de aprendizagem.' },
+];
+let pilarIdx = 0;
+function pilaresRenderTabs() {
+    const wrap = document.getElementById('pilares-tabs');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    PILARES.forEach((p, i) => {
+        const b = document.createElement('button');
+        b.className = 'pilar-tab' + (i === pilarIdx ? ' active' : '');
+        b.textContent = p.titulo;
+        b.onclick = () => pilaresGo(i);
+        wrap.appendChild(b);
+    });
+}
+function pilaresGo(i) {
+    pilarIdx = i;
+    document.getElementById('pilar-titulo').textContent = PILARES[i].titulo;
+    document.getElementById('pilar-texto').textContent  = PILARES[i].texto;
+    pilaresRenderTabs();
+}
+pilaresGo(0);
+
+// ── Destaques (carrossel hero) ──────────────────────────────────────
+let destaquesIdx = 0;
+const DESTAQUES_N = 3;
+function destaquesGo(i) {
+    destaquesIdx = (i + DESTAQUES_N) % DESTAQUES_N;
+    document.getElementById('destaques-track').style.transform = 'translateX(-' + (destaquesIdx * (100 / DESTAQUES_N)) + '%)';
+    document.querySelectorAll('.destaques-dot').forEach((d, idx) => {
+        d.style.width      = idx === destaquesIdx ? '20px' : '8px';
+        d.style.background = idx === destaquesIdx ? '#E8821E' : 'rgba(255,255,255,0.3)';
+    });
+}
+function destaquesNav(dir) { destaquesGo(destaquesIdx + dir); }
+setInterval(() => destaquesNav(1), 6000);
+
+// ── Novidades (carrossel campus, inspirado em Marista Goiânia) ─────
+const NOVIDADES = [
+    { img: 'https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_101232.jpg', titulo: 'Nossa Estrutura', texto: 'Espaços pensados para unir aprendizado, conforto e segurança em cada fase da jornada do aluno.' },
+    { img: 'https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0050.jpg', titulo: 'Ambientes de Aprendizagem', texto: 'Salas equipadas e ambientes estimulantes, preparados para uma educação moderna e participativa.' },
+    { img: 'https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_084648.jpg', titulo: 'Áreas de Convivência', texto: 'Espaços de convívio que incentivam a socialização, o brincar e o desenvolvimento em comunidade.' },
+    { img: 'https://www.unosales.com.br/adm/uploads/image/galeria/frente_col_gio_2.jpg', titulo: 'Fachada do Colégio', texto: 'Localizado no Setor Leste Vila Nova, o Colégio Uno Sales recebe famílias com estrutura completa.' },
+];
+let novidadesIdx = 0;
+function novidadesGo(i) {
+    novidadesIdx = (i + NOVIDADES.length) % NOVIDADES.length;
+    const item = NOVIDADES[novidadesIdx];
+    document.getElementById('novidades-img').src = item.img;
+    document.getElementById('novidades-titulo').textContent = item.titulo;
+    document.getElementById('novidades-texto').textContent = item.texto;
+}
+function novidadesNav(dir) { novidadesGo(novidadesIdx + dir); }
+if (document.getElementById('novidades-img')) {
+    novidadesGo(0);
+    setInterval(() => novidadesNav(1), 7000);
+}
+
+// ── Mobile menu ──────────────────────────────────────────────────
+function toggleMobileMenu() {
+    document.getElementById('mobile-menu').classList.toggle('open');
+    document.getElementById('site-header').classList.toggle('menu-open');
+}
+
+// ── WhatsApp popup ────────────────────────────────────────────────
+function toggleWa() {
+    const popup   = document.getElementById('wa-popup');
+    const overlay = document.getElementById('wa-overlay');
+    const iconO   = document.getElementById('wa-icon-open');
+    const iconC   = document.getElementById('wa-icon-close');
+    const isOpen  = !popup.classList.contains('hidden');
+    if (isOpen) {
+        popup.classList.add('hidden');
+        overlay.classList.add('hidden');
+        iconO.classList.remove('hidden');
+        iconC.classList.add('hidden');
+    } else {
+        popup.classList.remove('hidden');
+        overlay.classList.remove('hidden');
+        iconO.classList.add('hidden');
+        iconC.classList.remove('hidden');
+    }
+}
+function closeWa() {
+    document.getElementById('wa-popup').classList.add('hidden');
+    document.getElementById('wa-overlay').classList.add('hidden');
+    document.getElementById('wa-icon-open').classList.remove('hidden');
+    document.getElementById('wa-icon-close').classList.add('hidden');
+}
+
+// ── Captação — dropdown customizado (substitui <select> nativo) ────
+function captacaoSelectHtml(id, placeholder, options) {
+    return '<div class="captacao-select-wrap">'
+        + '<button type="button" class="captacao-field captacao-select-trigger" onclick="captacaoToggleSelect(event, this)">'
+        +   '<span class="captacao-select-label">' + placeholder + '</span>'
+        +   '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg>'
+        + '</button>'
+        + '<input type="hidden" id="' + id + '" required value="">'
+        + '<div class="captacao-select-panel">'
+        +   options.map(o => '<div class="captacao-select-option" onclick="event.stopPropagation();captacaoSelectPick(this)" data-value="' + o + '">' + o + '</div>').join('')
+        + '</div>'
+        + '</div>';
+}
+function captacaoToggleSelect(e, btn) {
+    e.stopPropagation();
+    const panel = btn.parentElement.querySelector('.captacao-select-panel');
+    const wasOpen = panel.classList.contains('open');
+    document.querySelectorAll('.captacao-select-panel.open').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.captacao-select-trigger.open').forEach(t => t.classList.remove('open'));
+    if (!wasOpen) { panel.classList.add('open'); btn.classList.add('open'); }
+}
+function captacaoSelectPick(el) {
+    const wrap = el.closest('.captacao-select-wrap');
+    const trigger = wrap.querySelector('.captacao-select-trigger');
+    const panel = wrap.querySelector('.captacao-select-panel');
+    const hidden = wrap.querySelector('input[type=hidden]');
+    hidden.value = el.dataset.value;
+    trigger.querySelector('.captacao-select-label').textContent = el.textContent;
+    trigger.classList.add('has-value');
+    panel.querySelectorAll('.captacao-select-option').forEach(o => o.classList.remove('active'));
+    el.classList.add('active');
+    panel.classList.remove('open');
+    trigger.classList.remove('open');
+}
+document.addEventListener('click', () => {
+    document.querySelectorAll('.captacao-select-panel.open').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.captacao-select-trigger.open').forEach(t => t.classList.remove('open'));
+});
+
+// ── Captação — formulário multi-step (Agende sua visita) ───────────
+let captacaoEstudanteCount = 0;
+
+function captacaoEstudanteBlockHtml(i) {
+    return '<div class="captacao-student-block flex flex-col gap-4" data-estudante="' + i + '">'
+        + (i > 0 ? '<button type="button" onclick="captacaoRemoverEstudante(' + i + ')" class="self-end text-black/45 text-xs font-black uppercase tracking-wider hover:text-black/80">Remover</button>' : '')
+        + '<input type="text" id="cap-est-nome-' + i + '" class="captacao-field" placeholder="Nome do estudante" required>'
+        + '<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">'
+        + captacaoSelectHtml('cap-est-ano-' + i, 'Ano letivo', [2026,2027,2028,2029,2030,2031])
+        + captacaoSelectHtml('cap-est-nivel-' + i, 'Nível pretendido', ['Educação Infantil','Ensino Fundamental I','Ensino Fundamental II','Ensino Médio'])
+        + captacaoSelectHtml('cap-est-turno-' + i, 'Turno', ['Manhã','Tarde'])
+        + '</div>'
+        + '<label class="captacao-check-row text-black/65" style="font-size:13px;line-height:1.5;">'
+        + '<input type="checkbox" id="cap-est-acomp-' + i + '">'
+        + '<span>Meu filho(a) realiza algum acompanhamento especializado externo (fonoaudiólogo, psicopedagogo, terapeuta ocupacional etc.)?</span>'
+        + '</label>'
+        + '</div>';
+}
+
+function captacaoAdicionarEstudante() {
+    const wrap = document.getElementById('captacao-estudantes');
+    wrap.insertAdjacentHTML('beforeend', captacaoEstudanteBlockHtml(captacaoEstudanteCount));
+    captacaoEstudanteCount++;
+}
+
+function captacaoRemoverEstudante(i) {
+    const block = document.querySelector('.captacao-student-block[data-estudante="' + i + '"]');
+    if (block) block.remove();
+}
+
+function captacaoIrPara(step) {
+    if (step === 2) {
+        const nome = document.getElementById('cap-nome');
+        const sobrenome = document.getElementById('cap-sobrenome');
+        const whatsapp = document.getElementById('cap-whatsapp');
+        if (!nome.checkValidity() || !sobrenome.checkValidity() || !whatsapp.checkValidity()) {
+            nome.reportValidity();
+            sobrenome.reportValidity();
+            whatsapp.reportValidity();
+            return;
+        }
+        if (captacaoEstudanteCount === 0) captacaoAdicionarEstudante();
+    }
+
+    document.getElementById('captacao-step-1').style.display = step === 1 ? 'flex' : 'none';
+    document.getElementById('captacao-step-2').style.display = step === 2 ? 'flex' : 'none';
+
+    const step1El = document.querySelector('.captacao-step[data-step="1"]');
+    const step2El = document.querySelector('.captacao-step[data-step="2"]');
+    const lineEl  = document.getElementById('captacao-line-1');
+    step1El.classList.toggle('active', step === 1);
+    step1El.classList.toggle('done', step === 2);
+    step2El.classList.toggle('active', step === 2);
+    step2El.classList.toggle('done', false);
+    lineEl.classList.toggle('done', step === 2);
+}
+
+document.getElementById('captacao-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // dropdowns customizados usam <input type="hidden">, que o navegador não
+    // valida sozinho — checar manualmente antes de seguir com o envio.
+    const selectsVazios = Array.from(document.querySelectorAll('.captacao-select-wrap input[type=hidden][required]')).filter(inp => !inp.value);
+    if (selectsVazios.length) {
+        selectsVazios.forEach(inp => inp.closest('.captacao-select-wrap').querySelector('.captacao-select-trigger').style.borderColor = '#C21233');
+        return;
+    }
+
+    const estudantes = Array.from(document.querySelectorAll('.captacao-student-block')).map(block => {
+        const i = block.dataset.estudante;
+        return {
+            nome: document.getElementById('cap-est-nome-' + i).value,
+            anoLetivo: document.getElementById('cap-est-ano-' + i).value,
+            nivel: document.getElementById('cap-est-nivel-' + i).value,
+            turno: document.getElementById('cap-est-turno-' + i).value,
+            acompanhamentoExterno: document.getElementById('cap-est-acomp-' + i).checked,
+        };
+    });
+
+    const payload = {
+        responsavel: {
+            nome: document.getElementById('cap-nome').value,
+            sobrenome: document.getElementById('cap-sobrenome').value,
+            whatsapp: document.getElementById('cap-whatsapp').value,
+        },
+        estudantes: estudantes,
+    };
+
+    // TODO: integrar com o CRM do Colégio Uno Sales quando definido — por
+    // enquanto só loga o payload no console (formulário só de front-end).
+    console.log('Captação — dados do formulário:', payload);
+
+    document.getElementById('captacao-form').style.display = 'none';
+    document.getElementById('captacao-stepper').style.display = 'none';
+    document.getElementById('captacao-sucesso').style.display = 'block';
+});
+</script>
+
+</body>
+</html>
