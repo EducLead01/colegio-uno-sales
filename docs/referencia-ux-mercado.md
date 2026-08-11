@@ -247,11 +247,22 @@ e Aprendizagem."
   ou ele quer literalmente esse texto também.
 - Falta definir: em qual seção da página esse componente entra.
 
+### Atualização — conteúdo literal RED HOUSE substituído
+
+Texto placeholder (IB) trocado por conteúdo próprio do Uno Sales, sem
+jargão IB/inglês, mantendo os mesmos 6 pilares e o mecanismo de tabs:
+Metodologia por Competências, Protagonismo do Aluno, Currículo Flexível,
+Aprendizagem na Prática, Avaliação Contínua, Pedagogia Integrada. Título/
+subtítulo da seção não mudaram. Mecanismo visual (tabs + painel com seta,
+cores creme/vermelho/dourado do clone) permanece igual — só o texto
+mudou.
+
 ### Decisões tomadas na implementação
 
-- Usuário confirmou: usar o **texto do RED HOUSE literalmente** por
-  enquanto (incluindo termos IB como "Learner Profile"), como placeholder
-  até o usuário mandar o conteúdo real do Uno Sales.
+- Usuário confirmou inicialmente: usar o **texto do RED HOUSE literalmente**
+  (incluindo termos IB como "Learner Profile"), como placeholder
+  até o usuário mandar o conteúdo real do Uno Sales — **já substituído,
+  ver "Atualização" acima**.
 - Seção nova `id="pilares"`, inserida logo depois de `#quem-somos`, antes
   de `#visibilidade` (não entrou no menu principal).
 - **Cores mantidas exatamente como a referência** (`#F5EFE7` fundo creme,
