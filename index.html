@@ -100,6 +100,17 @@
             .destaques-frame { height:auto; aspect-ratio:2/1; min-height:0; max-height:none; }
         }
 
+        /* hero: no mobile o vídeo vira um card contido com cantos arredondados
+           (clone do player de referência), em vez de full-bleed */
+        #hero { min-height:100vh; }
+        .hero-media { position:absolute; inset:0; }
+        .hero-video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+        .hero-gradient { position:absolute; inset:0; }
+        @media (max-width: 767px) {
+            #hero { min-height:0; padding-top:96px; padding-bottom:32px; }
+            .hero-media { position:relative; width:calc(100% - 32px); height:65vh; margin:0 auto; border-radius:24px; overflow:hidden; }
+        }
+
         /* mobile menu animation */
         .site-header { background:#F5EFE7; border-bottom:1px solid rgba(26,26,26,0.08); transition:background .3s ease, border-color .3s ease; }
         .site-header.menu-open .mobile-menu-btn { display:none; }
@@ -200,15 +211,16 @@
 <main class="flex-grow">
 
 <!-- ── HERO ──────────────────────────────────────────────────── -->
-<section id="hero" class="flex items-end justify-start pt-28 pb-20 relative overflow-hidden" style="min-height:100vh;">
+<section id="hero" class="flex items-end justify-start relative overflow-hidden">
 
-    <!-- vídeo de fundo (arquivo local, baixado do host original que estava bloqueando embed cross-origin) -->
-    <video class="absolute inset-0 w-full h-full object-cover" autoplay loop muted playsinline style="opacity:.9;">
-        <source src="hero-video.mp4" type="video/mp4">
-    </video>
-
-    <!-- gradiente sutil, só pra transição com a seção de baixo -->
-    <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 30%);"></div>
+    <!-- vídeo de fundo (arquivo local) — no mobile vira card arredondado, no desktop continua full-bleed -->
+    <div class="hero-media">
+        <video class="hero-video" autoplay loop muted playsinline style="opacity:.9;">
+            <source src="hero-video.mp4" type="video/mp4">
+        </video>
+        <!-- gradiente sutil, só pra transição com a seção de baixo -->
+        <div class="hero-gradient" style="background:linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 30%);"></div>
+    </div>
 
     <!-- seta scroll -->
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center" style="color:rgba(255,255,255,0.2);">
