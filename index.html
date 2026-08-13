@@ -240,10 +240,13 @@
                     Um novo conceito<br>de <span class="gradient-text">escola.</span>
                 </h2>
                 <p class="text-black/65 font-light leading-relaxed mb-4" style="font-size:18px;">
-                    Idealizado por experientes pedagogos e administradores, e contando com uma equipe multidisciplinar de educadores especialistas, o Colégio UNO Sales surge no Setor Leste Vila Nova como oportuna resposta aos anseios e necessidades educativas da sociedade contemporânea.
+                    Idealizado por experientes pedagogos e administradores, e contando com uma equipe multidisciplinar de educadores especialistas, o Colégio UNO Sales surge no coração do Setor Leste Vila Nova como oportuna resposta aos anseios e necessidades educativas da sociedade goiana.
+                </p>
+                <p class="text-black/65 font-light leading-relaxed mb-4" style="font-size:18px;">
+                    O mundo contemporâneo apresenta desafios cada vez mais complexos, que exigem soluções criativas e, na maior parte das vezes, interdisciplinares. Nesse contexto, criamos uma experiência escolar rica e diversificada que contribui para a formação de alunos ainda mais preparados para construir seus projetos de vida pessoais e profissionais.
                 </p>
                 <p class="text-black/65 font-light leading-relaxed mb-8" style="font-size:18px;">
-                    O Colégio UNO Sales chega a Goiânia com uma educação que faz diferença de verdade: metodologia por competências, plataforma educacional própria, amplo espaço físico e salas climatizadas — tudo pensado para preparar seu filho para os desafios reais, dentro e fora da sala de aula.
+                    Com o objetivo de desenvolver competências e habilidades que vão da psicomotricidade à expressão artística e ao relacionamento interpessoal, passando pela introdução e pelo aprofundamento em novas tecnologias, nosso colégio promove vivências lúdicas que dialogam com nosso compromisso de despertar a paixão pelo conhecimento.
                 </p>
             </div>
 
@@ -678,7 +681,7 @@ function identidadeRenderShields() {
             const plus = document.createElement('span');
             plus.className = 'font-black';
             plus.style.cssText = 'color:#0A0F2E;font-size:24px;';
-            plus.textContent = '+';
+            plus.textContent = (i === IDENTIDADE.length - 2) ? '=' : '+';
             wrap.appendChild(plus);
         }
     });
@@ -708,11 +711,13 @@ function identidadeRenderAccordion() {
     IDENTIDADE.forEach((cat, i) => {
         const box = document.createElement('div');
 
-        const sign = document.createElement('div');
-        sign.className = 'text-center font-black';
-        sign.style.cssText = 'color:#0A0F2E;font-size:20px;margin-bottom:6px;';
-        sign.textContent = i === 0 ? '=' : '+';
-        box.appendChild(sign);
+        if (i > 0) {
+            const sign = document.createElement('div');
+            sign.className = 'text-center font-black';
+            sign.style.cssText = 'color:#0A0F2E;font-size:20px;margin-bottom:6px;';
+            sign.textContent = (i === IDENTIDADE.length - 1) ? '=' : '+';
+            box.appendChild(sign);
+        }
 
         const pill = document.createElement('button');
         pill.className = 'identidade-acc-pill font-black text-sm';
