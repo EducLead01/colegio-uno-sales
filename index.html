@@ -79,10 +79,10 @@
         .track-down { animation: trackDown 26s linear infinite; }
 
         /* pilares pedagógicos (clone RED HOUSE) */
-        .pilar-tab { text-align:left; font-weight:900; font-size:14px; padding:16px 24px; border-radius:999px; border:1.5px solid #A98F5C; background:#fff; color:#2a2a2a; cursor:pointer; transition:.2s; }
+        .pilar-tab { display:flex; align-items:center; justify-content:space-between; gap:14px; text-align:left; font-weight:900; font-size:14px; padding:16px 24px; border-radius:999px; border:1.5px solid #A98F5C; background:#fff; color:#2a2a2a; cursor:pointer; transition:.2s; }
         .pilar-tab.active { background:rgba(232,130,30,0.08); border-color:#E8821E; color:#1a1a1a; }
         .pilares-grid { grid-template-columns: 1fr; }
-        @media (min-width:1024px) { .pilares-grid { grid-template-columns: 300px 1fr; } }
+        @media (min-width:1024px) { .pilares-grid { display:grid !important; grid-template-columns: 300px 1fr; } }
 
         /* nossa identidade (clone RED HOUSE) */
         .identidade-shield { clip-path: polygon(0 0, 100% 0, 100% 62%, 50% 100%, 0 62%); background:#fff; border:1.5px solid #A98F5C; color:#2a2a2a; cursor:pointer; transition:.2s; padding:28px 20px 42px; text-align:center; }
@@ -313,7 +313,8 @@
             </p>
         </div>
 
-        <div class="pilares-grid" style="display:grid;gap:2rem;align-items:start;">
+        <!-- ░░ DESKTOP ░░ -->
+        <div class="hidden lg:block pilares-grid" style="gap:2rem;align-items:start;">
 
             <!-- tabs -->
             <div id="pilares-tabs" style="display:flex;flex-direction:column;gap:12px;"></div>
@@ -336,6 +337,9 @@
             </div>
 
         </div>
+
+        <!-- ░░ MOBILE (acordeão: painel abre logo abaixo da tab clicada) ░░ -->
+        <div class="lg:hidden flex flex-col gap-3" id="pilares-accordion"></div>
 
     </div>
 </section>
@@ -641,24 +645,24 @@ const IDENTIDADE = [
         label: 'Tradicional', icone: ICONE_TRADICAO,
         itens: [
             { titulo: 'Décadas de experiência', texto: 'Uma trajetória consolidada na educação, construída com seriedade, compromisso e resultados consistentes ao longo dos anos.', img: 'Tradicional.webp' },
-            { titulo: 'Valores sólidos', texto: 'Formamos alunos com base em princípios éticos, respeito e responsabilidade, preparando-os para a vida em sociedade.', img: 'Tradicional.webp' },
-            { titulo: 'Relação próxima com as famílias', texto: 'Uma escola que conhece cada aluno pelo nome e constrói uma parceria de confiança com pais e responsáveis.', img: 'Tradicional.webp' },
+            { titulo: 'Valores sólidos', texto: 'Formamos alunos com base em princípios éticos, respeito e responsabilidade, preparando-os para a vida em sociedade.', img: 'Valores solidos.webp' },
+            { titulo: 'Relação próxima com as famílias', texto: 'Uma escola que conhece cada aluno pelo nome e constrói uma parceria de confiança com pais e responsáveis.', img: 'Relacao proxima com as familias.webp' },
         ]
     },
     {
         label: 'Inovadora', icone: ICONE_INOVACAO,
         itens: [
             { titulo: 'Metodologia atualizada', texto: 'Práticas pedagógicas modernas que unem tecnologia e ensino por competências, preparando o aluno para os desafios do futuro.', img: 'Inovadora.webp' },
-            { titulo: 'Ferramentas digitais', texto: 'Uso de plataformas educacionais e dispositivos como iPads para tornar o aprendizado mais dinâmico e interativo.', img: 'Inovadora.webp' },
-            { titulo: 'Educação em constante evolução', texto: 'Buscamos continuamente novas formas de ensinar, atualizando nossa proposta pedagógica junto com o mundo.', img: 'Inovadora.webp' },
+            { titulo: 'Ferramentas digitais', texto: 'Uso de plataformas educacionais e dispositivos como iPads para tornar o aprendizado mais dinâmico e interativo.', img: 'Ferramentas digitais.webp' },
+            { titulo: 'Educação em constante evolução', texto: 'Buscamos continuamente novas formas de ensinar, atualizando nossa proposta pedagógica junto com o mundo.', img: 'Educacao em constante evolucao.webp' },
         ]
     },
     {
         label: 'Goiana', icone: ICONE_GOIANA,
         itens: [
             { titulo: 'Raízes em Goiânia', texto: 'Uma escola local, que entende as necessidades da nossa comunidade e das famílias do Setor Leste Vila Nova.', img: 'Goiania.webp' },
-            { titulo: 'Compromisso com a região', texto: 'Contribuímos para a formação de cidadãos que valorizam e transformam positivamente a nossa cidade.', img: 'Goiania.webp' },
-            { titulo: 'Identidade goiana', texto: 'Valorizamos a cultura e as tradições de Goiás, integrando essa identidade à vivência escolar dos nossos alunos.', img: 'Goiania.webp' },
+            { titulo: 'Compromisso com a região', texto: 'Contribuímos para a formação de cidadãos que valorizam e transformam positivamente a nossa cidade.', img: 'Compromisso com a regiao.webp' },
+            { titulo: 'Identidade goiana', texto: 'Valorizamos a cultura e as tradições de Goiás, integrando essa identidade à vivência escolar dos nossos alunos.', img: 'Identidade goiana.webp' },
         ]
     },
 ];
@@ -820,6 +824,37 @@ function pilaresGo(i) {
     pilaresRenderTabs();
 }
 pilaresGo(0);
+
+// mobile: acordeão, painel abre logo abaixo da tab clicada (mesma peça visual do desktop)
+let pilarOpenIdx = 0;
+function pilaresRenderAccordion() {
+    const wrap = document.getElementById('pilares-accordion');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    PILARES.forEach((p, i) => {
+        const b = document.createElement('button');
+        b.className = 'pilar-tab' + (i === pilarOpenIdx ? ' active' : '');
+        b.innerHTML = '<span>' + p.titulo + '</span><span class="identidade-acc-toggle">' + (i === pilarOpenIdx ? '−' : '+') + '</span>';
+        b.onclick = () => { pilarOpenIdx = (pilarOpenIdx === i ? -1 : i); pilaresRenderAccordion(); };
+        wrap.appendChild(b);
+
+        if (i === pilarOpenIdx) {
+            const panel = document.createElement('div');
+            panel.style.cssText = 'position:relative;min-height:280px;';
+            panel.innerHTML =
+                '<svg viewBox="0 0 400 200" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.05));">'
+                +   '<path d="M40,0 L386,0 Q400,0 400,14 L400,186 Q400,200 386,200 L40,200 L0,100 Z" fill="#F5EFE7" stroke="#F6CDA5" stroke-width="2.5"></path>'
+                + '</svg>'
+                + '<div style="position:relative;z-index:10;padding:32px 28px 32px 44px;">'
+                +   '<h3 class="font-black" style="color:#0A0F2E;font-size:20px;line-height:1.2;">' + p.titulo + '</h3>'
+                +   '<p class="mt-3" style="color:#3a352c;font-size:14px;line-height:1.65;">' + p.texto + '</p>'
+                +   '<a href="#captacao" class="font-black text-xs uppercase tracking-wider" style="display:inline-block;margin-top:24px;background:linear-gradient(135deg, #060918, #0A0F2E);color:#fff;padding:12px 26px;border-radius:999px;text-decoration:none;">Agende uma reunião</a>'
+                + '</div>';
+            wrap.appendChild(panel);
+        }
+    });
+}
+pilaresRenderAccordion();
 
 // ── Destaques (carrossel hero) ──────────────────────────────────────
 let destaquesIdx = 0;
