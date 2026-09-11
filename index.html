@@ -113,6 +113,11 @@
 
         /* mobile menu animation */
         .site-header { background:#F5EFE7; border-bottom:1px solid rgba(26,26,26,0.08); transition:background .3s ease, border-color .3s ease; }
+        /* logo centralizada no header: absoluta pra ficar no centro real da barra,
+           independente do que existe à esquerda e à direita (nav no desktop, menu no mobile) */
+        .site-logo { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); line-height:0; }
+        .site-logo img { display:block; height:40px; width:auto; }
+        @media (max-width: 767px) { .site-logo img { height:32px; } }
         .site-header.menu-open .mobile-menu-btn { display:none; }
         .mobile-menu-panel { max-height:0; overflow:hidden; opacity:0; transition:max-height .8s ease, opacity .5s ease; }
         .mobile-menu-panel.open { max-height:600px; opacity:1; }
@@ -173,12 +178,21 @@
 <!-- ── HEADER ────────────────────────────────────────────────── -->
 <header id="site-header" class="site-header fixed top-0 w-full z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between md:justify-center h-18" style="height:72px;">
+        <div class="relative flex items-center justify-between h-18" style="height:72px;">
 
-            <!-- Nav -->
+            <!-- Nav esquerda (desktop) -->
             <nav class="hidden md:flex items-center gap-8 text-xs font-black">
                 <a href="#quem-somos" class="nav-link">Quem Somos</a>
                 <a href="#matriculas" class="nav-link">Níveis de Ensino</a>
+            </nav>
+
+            <!-- Logo — centro da barra -->
+            <a href="#hero" class="site-logo" aria-label="Colégio Uno Sales — ir para o topo">
+                <img src="logo-uno-sales.webp" alt="Colégio Uno Sales">
+            </a>
+
+            <!-- Nav direita (desktop) -->
+            <nav class="hidden md:flex items-center gap-8 text-xs font-black">
                 <a href="#novidades" class="nav-link">Novidades</a>
                 <a href="https://portal.colegiounosales.com.br" target="_blank" class="nav-link">Portal Uno Sales</a>
             </nav>
@@ -218,8 +232,8 @@
         <video class="hero-video" autoplay loop muted playsinline style="opacity:.9;">
             <source src="hero-video-02.mp4" type="video/mp4">
         </video>
-        <!-- gradiente sutil, só pra transição com a seção de baixo -->
-        <div class="hero-gradient" style="background:linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 30%);"></div>
+        <!-- máscara uniforme (segura o brilho da filmagem) + gradiente de transição com a seção de baixo -->
+        <div class="hero-gradient" style="background-image:linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 30%);background-color:rgba(10,10,10,0.32);"></div>
     </div>
 
     <!-- seta scroll -->
