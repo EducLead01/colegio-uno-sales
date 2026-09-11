@@ -156,14 +156,13 @@
         .captacao-select-option { padding:9px 14px; font-size:12.5px; white-space:nowrap; cursor:pointer; color:#1a1a1a; }
         .captacao-select-option:hover, .captacao-select-option.active { background:#0A0F2E; color:#fff; }
 
-        /* diferenciais — badge recortado + flip no hover (inspirado em SOMOS Educação) */
-        /* scroll/marquee (mesma técnica da seção 7 do doc de referência) */
-        @keyframes diferenciaisScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .diferenciais-track-anim { animation: diferenciaisScroll 38s linear infinite; }
-        #diferenciais:hover #diferenciais-track { animation-play-state: paused; }
-        .diferenciais-flip { perspective:1200px; height:260px; width:280px; flex-shrink:0; }
+        /* diferenciais — badge recortado + flip por clique (inspirado em SOMOS Educação) */
+        /* o marquee é controlado por JS (e não por @keyframes) pra que a barra
+           de baixo possa arrastar o trilho e pausar quando um card está aberto */
+        .diferenciais-flip { perspective:1200px; height:260px; width:280px; flex-shrink:0; cursor:pointer; }
         .diferenciais-flip-inner { position:relative; width:100%; height:100%; transition:transform .6s cubic-bezier(.4,.2,.2,1); transform-style:preserve-3d; }
-        .diferenciais-flip:hover .diferenciais-flip-inner { transform:rotateY(180deg); }
+        .diferenciais-flip.is-open .diferenciais-flip-inner { transform:rotateY(180deg); }
+        .diferenciais-flip:focus-visible { outline:2px solid #E8821E; outline-offset:4px; border-radius:18px; }
         .diferenciais-card, .diferenciais-card-back { position:absolute; inset:0; border-radius:18px; backface-visibility:hidden; -webkit-backface-visibility:hidden; }
         .diferenciais-card { background:#fff; padding:32px 20px 28px; text-align:center; }
         .diferenciais-card-back { transform:rotateY(180deg); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:28px 24px; text-align:center; }
@@ -171,6 +170,14 @@
         .diferenciais-badge-main { position:absolute; inset:0; border-radius:50%; }
         .diferenciais-badge-bite { position:absolute; width:38px; height:38px; border-radius:50%; background:#fff; top:-5px; right:-5px; z-index:2; }
         .diferenciais-badge-inner { position:absolute; width:50px; height:50px; border-radius:50%; background:#fff; top:52%; left:46%; transform:translate(-50%,-50%); z-index:3; display:flex; align-items:center; justify-content:center; }
+        /* aviso de "clique" — na frente fica preso no rodapé do card, no verso segue o fluxo */
+        .diferenciais-hint { position:absolute; left:0; right:0; bottom:16px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:#1a1a1a; opacity:.45; }
+        .diferenciais-hint-back { display:block; margin-top:16px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:#fff; opacity:.75; }
+        /* barra de arrastar (passa os cards de um lado pro outro) */
+        .diferenciais-bar { position:relative; height:6px; border-radius:99px; background:rgba(26,26,26,0.10); cursor:grab; touch-action:none; }
+        .diferenciais-bar:active { cursor:grabbing; }
+        .diferenciais-bar-thumb { position:absolute; top:-4px; height:14px; border-radius:99px; background:#E8821E; transition:background .2s ease; }
+        .diferenciais-bar:hover .diferenciais-bar-thumb { background:#d0740f; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -424,7 +431,16 @@
 
 <!-- ── DIFERENCIAIS (badges inspirados em SOMOS Educação) ───────── -->
 <section id="diferenciais" class="py-20 overflow-hidden" style="background:#F5EFE7;">
-    <div id="diferenciais-track" class="flex items-stretch gap-6 diferenciais-track-anim" style="width:max-content;"></div>
+    <div id="diferenciais-track" class="flex items-stretch gap-6" style="width:max-content;will-change:transform;"></div>
+
+    <!-- barra pra passar os cards de um lado pro outro -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div id="diferenciais-bar" class="diferenciais-bar" style="margin-top:34px;"
+             role="scrollbar" aria-orientation="horizontal" aria-controls="diferenciais-track"
+             aria-label="Passar os cards de diferenciais" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div id="diferenciais-bar-thumb" class="diferenciais-bar-thumb"></div>
+        </div>
+    </div>
 </section>
 
 <!-- ── NOSSA IDENTIDADE (clone RED HOUSE) ───────────────────────── -->
@@ -494,7 +510,7 @@
 
             <div class="rounded-2xl overflow-hidden" style="background:#fff;box-shadow:0 10px 30px rgba(0,0,0,0.06);">
                 <div class="relative" style="aspect-ratio:4/3;">
-                    <img src="Ensino Fundamental 1.webp" class="absolute inset-0 w-full h-full object-cover" alt="" loading="lazy">
+                    <img src="Ensino Fundamental 1 novo.webp" class="absolute inset-0 w-full h-full object-cover" alt="" loading="lazy">
                 </div>
                 <div style="padding:24px;">
                     <p class="text-el-orange text-xs font-black uppercase tracking-widest mb-2">Matrículas</p>
@@ -517,27 +533,25 @@
             <!-- scrolling columns -->
             <div class="flex gap-4 overflow-hidden rounded-2xl" style="height:480px;" aria-hidden="true">
                 <div class="flex-1 overflow-hidden">
+                    <!-- 3 imagens por coluna, duplicadas 2x: cada metade precisa passar
+                         dos 480px da janela, senão o loop abre um vão -->
                     <div class="track-up flex flex-col gap-3">
-                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_101232.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
-                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0050.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
-                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_084648.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
                         <img src="https://www.unosales.com.br/adm/uploads/image/galeria/frente_col_gio_2.jpg"    class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
                         <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_101232.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
-                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0050.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
-                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_084648.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0049.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
                         <img src="https://www.unosales.com.br/adm/uploads/image/galeria/frente_col_gio_2.jpg"    class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_101232.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0049.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
                     </div>
                 </div>
                 <div class="flex-1 overflow-hidden">
                     <div class="track-down flex flex-col gap-3">
-                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0049.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
                         <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_100908.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
-                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0043.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
-                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0038.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
-                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0049.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_084648.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_101232.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
                         <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_100908.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
-                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0043.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
-                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_wa0038.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_084648.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
+                        <img src="https://www.unosales.com.br/adm/uploads/image/galeria/img_20230110_101232.jpg" class="w-full rounded-xl object-cover" style="height:200px;" loading="lazy" alt="">
                     </div>
                 </div>
             </div>
@@ -784,7 +798,7 @@ function diferenciaisRender() {
     const track = document.getElementById('diferenciais-track');
     if (!track) return;
     const cardHtml = d =>
-        '<div class="diferenciais-flip">'
+        '<div class="diferenciais-flip" role="button" tabindex="0" aria-expanded="false" aria-label="' + d.titulo + '">'
       + '<div class="diferenciais-flip-inner">'
 
       +   '<div class="diferenciais-card" style="border:1.5px solid ' + d.cor + ';">'
@@ -794,11 +808,13 @@ function diferenciaisRender() {
       +       '<div class="diferenciais-badge-inner" style="color:' + d.cor + ';">' + d.icone + '</div>'
       +     '</div>'
       +     '<h3 class="font-black mt-4" style="font-size:16px;">' + d.titulo + '</h3>'
+      +     '<span class="diferenciais-hint">Clique para abrir o card</span>'
       +   '</div>'
 
       +   '<div class="diferenciais-card-back" style="background:' + d.cor + ';">'
       +     '<h3 class="font-black text-white" style="font-size:17px;">' + d.titulo + '</h3>'
       +     '<p class="text-white/85 font-light mt-3" style="font-size:14px;line-height:1.6;">' + d.texto + '</p>'
+      +     '<span class="diferenciais-hint-back">Clique para fechar</span>'
       +   '</div>'
 
       + '</div>'
@@ -808,6 +824,90 @@ function diferenciaisRender() {
     track.innerHTML = DIFERENCIAIS.map(cardHtml).join('') + DIFERENCIAIS.map(cardHtml).join('');
 }
 diferenciaisRender();
+
+// Movimento do trilho + barra de arrastar + abrir/fechar no clique.
+// O marquee saiu do CSS pra cá porque a barra precisa poder assumir a posição.
+function diferenciaisControlar() {
+    const sec   = document.getElementById('diferenciais');
+    const track = document.getElementById('diferenciais-track');
+    const bar   = document.getElementById('diferenciais-bar');
+    const thumb = document.getElementById('diferenciais-bar-thumb');
+    if (!sec || !track || !bar || !thumb) return;
+
+    const VELOCIDADE = 34;   // px por segundo
+    let deslocamento = 0, metade = 0, larguraThumb = 20, ultimo = 0;
+    let cardAberto = false, arrastando = false, sobreposto = false;
+
+    function medir() {
+        metade = track.scrollWidth / 2;   // o conteúdo está duplicado pro loop
+        // teto de 50%: em telas largas o trilho inteiro já cabe na tela e o
+        // thumb proporcional passaria de 100%, virando uma barra sem curso
+        larguraThumb = Math.max(16, Math.min(50, (sec.clientWidth / metade) * 100));
+        thumb.style.width = larguraThumb + '%';
+    }
+
+    function aplicar() {
+        if (metade <= 0) return;
+        deslocamento = ((deslocamento % metade) + metade) % metade;   // mantém em [0, metade)
+        track.style.transform = 'translateX(' + (-deslocamento) + 'px)';
+        const p = deslocamento / metade;
+        thumb.style.left = (p * (100 - larguraThumb)) + '%';
+        bar.setAttribute('aria-valuenow', Math.round(p * 100));
+    }
+
+    function quadro(t) {
+        const dt = ultimo ? (t - ultimo) / 1000 : 0;
+        ultimo = t;
+        // dt < 0.5 evita um salto gigante quando a aba volta de segundo plano
+        if (!cardAberto && !arrastando && !sobreposto && dt < 0.5) {
+            deslocamento += VELOCIDADE * dt;
+            aplicar();
+        }
+        requestAnimationFrame(quadro);
+    }
+
+    function irPara(e) {
+        const r = bar.getBoundingClientRect();
+        const x = Math.min(Math.max(e.clientX - r.left, 0), r.width);
+        deslocamento = (x / r.width) * metade;
+        aplicar();
+    }
+
+    bar.addEventListener('pointerdown', e => { arrastando = true; bar.setPointerCapture(e.pointerId); irPara(e); e.preventDefault(); });
+    bar.addEventListener('pointermove', e => { if (arrastando) irPara(e); });
+    bar.addEventListener('pointerup',     () => { arrastando = false; });
+    bar.addEventListener('pointercancel', () => { arrastando = false; });
+
+    sec.addEventListener('mouseenter', () => { sobreposto = true; });
+    sec.addEventListener('mouseleave', () => { sobreposto = false; });
+
+    function alternar(card) {
+        const abrindo = !card.classList.contains('is-open');
+        track.querySelectorAll('.diferenciais-flip.is-open').forEach(c => {
+            c.classList.remove('is-open');
+            c.setAttribute('aria-expanded', 'false');
+        });
+        if (abrindo) { card.classList.add('is-open'); card.setAttribute('aria-expanded', 'true'); }
+        cardAberto = abrindo;   // trilho fica parado enquanto houver card aberto
+    }
+
+    track.addEventListener('click', e => {
+        const card = e.target.closest('.diferenciais-flip');
+        if (card) alternar(card);
+    });
+    track.addEventListener('keydown', e => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const card = e.target.closest('.diferenciais-flip');
+        if (!card) return;
+        e.preventDefault();
+        alternar(card);
+    });
+
+    window.addEventListener('resize', () => { medir(); aplicar(); });
+    medir(); aplicar();
+    requestAnimationFrame(quadro);
+}
+diferenciaisControlar();
 
 // ── Pilares Pedagógicos (tabs, clone RED HOUSE) ─────────────────────
 const PILARES = [
