@@ -1,0 +1,5 @@
+# Arquivos-fonte de mídia: pesados e já convertidos para os formatos web.
+# Ficam só na máquina local, não no repositório.
+*.MOV
+*.mov
+subs.jpeg
