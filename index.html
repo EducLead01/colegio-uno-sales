@@ -111,6 +111,29 @@
             .hero-media { position:relative; width:calc(100% - 32px); height:65vh; margin:0 auto; border-radius:24px; overflow:hidden; }
         }
 
+        /* som do hero — padrão VSL (VTurb/Panda): o navegador só deixa dar
+           autoplay se estiver mudo, então o vídeo começa sem som e o clique
+           do usuário (gesto obrigatório) é o que libera o áudio */
+        .hero-som { position:absolute; inset:0; z-index:3; display:flex; align-items:center; justify-content:center;
+                    background:transparent; border:0; padding:0; cursor:pointer; }
+        .hero-som-pill { display:inline-flex; align-items:center; gap:10px; padding:15px 24px; border-radius:999px;
+                         background:rgba(10,10,10,0.72); color:#fff; border:1px solid rgba(255,255,255,0.18);
+                         font-size:14px; font-weight:900; font-family:Inter,sans-serif; white-space:nowrap;
+                         backdrop-filter:blur(6px); box-shadow:0 10px 34px rgba(0,0,0,0.4);
+                         animation:heroSomPulse 2.4s ease-in-out infinite; }
+        @keyframes heroSomPulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.045); } }
+        .hero-mute { position:absolute; z-index:3; left:18px; bottom:18px; width:44px; height:44px; border-radius:50%;
+                     display:flex; align-items:center; justify-content:center; background:rgba(10,10,10,0.6); color:#fff;
+                     border:1px solid rgba(255,255,255,0.18); cursor:pointer; backdrop-filter:blur(6px); transition:background .2s; }
+        .hero-mute:hover { background:rgba(10,10,10,0.8); }
+        @media (max-width: 767px) {
+            .hero-som-pill { font-size:12px; padding:12px 18px; gap:8px; }
+            .hero-mute { width:38px; height:38px; left:14px; bottom:14px; }
+        }
+        @media (prefers-reduced-motion: reduce) { .hero-som-pill { animation:none; } }
+        /* display:flex acima venceria o [hidden] do navegador, que é regra de UA */
+        .hero-som[hidden], .hero-mute[hidden] { display:none !important; }
+
         /* mobile menu animation */
         .site-header { background:#F5EFE7; border-bottom:1px solid rgba(26,26,26,0.08); transition:background .3s ease, border-color .3s ease; }
         /* logo centralizada no header: absoluta pra ficar no centro real da barra,
@@ -241,6 +264,17 @@
         </video>
         <!-- máscara uniforme (segura o brilho da filmagem) + gradiente de transição com a seção de baixo -->
         <div class="hero-gradient" style="background-image:linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 30%);background-color:rgba(10,10,10,0.32);"></div>
+
+        <!-- chamada pra liberar o som; some no primeiro clique -->
+        <button type="button" class="hero-som" id="hero-som" aria-label="Ativar o som do vídeo">
+            <span class="hero-som-pill">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                Seu vídeo já começou — clique para ouvir
+            </span>
+        </button>
+
+        <!-- depois de liberado, fica um controle pra ligar/desligar o som -->
+        <button type="button" class="hero-mute" id="hero-mute" hidden aria-label="Desativar o som do vídeo"></button>
     </div>
 
     <!-- seta scroll -->
@@ -908,6 +942,39 @@ function diferenciaisControlar() {
     requestAnimationFrame(quadro);
 }
 diferenciaisControlar();
+
+// ── Som do Hero (autoplay mudo + clique pra ouvir, padrão VSL) ──────
+// Nenhum navegador deixa um vídeo dar autoplay com som: sem gesto do usuário
+// o play() é recusado. Por isso ele começa mudo e o clique é o que libera.
+(function heroSom() {
+    const v    = document.querySelector('.hero-video');
+    const som  = document.getElementById('hero-som');
+    const mute = document.getElementById('hero-mute');
+    if (!v || !som || !mute) return;
+
+    const ICONE_COM_SOM = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+    const ICONE_SEM_SOM = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5Z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+
+    function pintarBotao() {
+        mute.innerHTML = v.muted ? ICONE_SEM_SOM : ICONE_COM_SOM;
+        mute.setAttribute('aria-label', v.muted ? 'Ativar o som do vídeo' : 'Desativar o som do vídeo');
+    }
+
+    som.addEventListener('click', function () {
+        v.muted = false;
+        v.volume = 1;
+        const p = v.play();
+        if (p && p.catch) p.catch(function () {});   // se o navegador recusar, não quebra a página
+        som.hidden = true;
+        mute.hidden = false;
+        pintarBotao();
+    });
+
+    mute.addEventListener('click', function () {
+        v.muted = !v.muted;
+        pintarBotao();
+    });
+})();
 
 // ── Pilares Pedagógicos (tabs, clone RED HOUSE) ─────────────────────
 const PILARES = [
