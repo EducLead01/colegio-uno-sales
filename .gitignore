@@ -3,3 +3,7 @@
 *.MOV
 *.mov
 subs.jpeg
+
+# Cópia local do site unosales.com.br (páginas + 46 MB de fotos).
+# Material de origem pra garimpar imagens; não entra no repositório.
+site-unosales/
