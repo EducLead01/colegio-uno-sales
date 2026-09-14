@@ -134,6 +134,29 @@
         /* display:flex acima venceria o [hidden] do navegador, que é regra de UA */
         .hero-som[hidden], .hero-mute[hidden] { display:none !important; }
 
+        /* popup do botão flutuante de WhatsApp — captura nome e telefone antes
+           de abrir a conversa, pra origem do lead ficar registrada */
+        .wa-modal { position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center;
+                    background:rgba(10,10,10,0.55); backdrop-filter:blur(3px); padding:20px; }
+        .wa-modal[hidden] { display:none !important; }
+        .wa-caixa { position:relative; width:100%; max-width:390px; background:#fff; border-radius:18px;
+                    padding:30px 26px 26px; box-shadow:0 24px 60px rgba(0,0,0,0.3); }
+        .wa-caixa h3 { margin:0 0 6px; font-size:19px; font-weight:900; color:#0A0F2E; }
+        .wa-caixa p  { margin:0 0 18px; font-size:13.5px; line-height:1.5; color:rgba(26,26,26,0.6); font-weight:400; }
+        .wa-campo { width:100%; box-sizing:border-box; border-radius:10px; padding:13px 16px; margin-bottom:11px;
+                    border:1px solid rgba(26,26,26,0.15); background:rgba(26,26,26,0.04); font-size:15px;
+                    font-family:Inter,sans-serif; color:#1a1a1a; outline:none; transition:border-color .2s; }
+        .wa-campo:focus { border-color:#25D366; }
+        .wa-enviar { width:100%; border:0; border-radius:10px; padding:14px; margin-top:5px; cursor:pointer;
+                     background:#25D366; color:#fff; font-size:15px; font-weight:900; font-family:Inter,sans-serif;
+                     display:flex; align-items:center; justify-content:center; gap:9px; transition:filter .2s; }
+        .wa-enviar:hover { filter:brightness(0.94); }
+        .wa-enviar[disabled] { opacity:.65; cursor:default; }
+        .wa-fechar { position:absolute; top:12px; right:12px; width:32px; height:32px; border:0; border-radius:50%;
+                     background:transparent; color:#8a8378; cursor:pointer; font-size:22px; line-height:1;
+                     display:flex; align-items:center; justify-content:center; }
+        .wa-fechar:hover { background:rgba(26,26,26,0.06); }
+
         /* mobile menu animation */
         .site-header { background:#F5EFE7; border-bottom:1px solid rgba(26,26,26,0.08); transition:background .3s ease, border-color .3s ease; }
         /* logo centralizada no header: absoluta pra ficar no centro real da barra,
@@ -692,13 +715,32 @@
 
 
 <!-- ── BOTÃO FLUTUANTE (leva pro formulário) ────────────────────── -->
-<a id="wa-btn" href="#captacao"
-    class="fixed bottom-5 right-5 z-[100] w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-transform hover:scale-110 active:scale-95"
+<button type="button" id="wa-btn" aria-label="Falar no WhatsApp"
+    class="fixed bottom-5 right-5 z-[100] w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-transform hover:scale-110 active:scale-95 border-0 cursor-pointer"
     style="background:#25D366;box-shadow:0 4px 20px rgba(37,211,102,0.5);">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 fill-white">
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.534 5.845L.054 23.25a.75.75 0 0 0 .917.94l5.562-1.461A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.528-5.218-1.444l-.374-.224-3.876 1.018 1.037-3.78-.245-.39A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
     </svg>
-</a>
+</button>
+
+<!-- Popup do WhatsApp: pede nome e telefone antes de abrir a conversa.
+     É o que permite registrar o lead e a origem — clicando direto pro
+     wa.me, nada disso chegaria na planilha. -->
+<div id="wa-modal" class="wa-modal" hidden role="dialog" aria-modal="true" aria-labelledby="wa-modal-titulo">
+    <div class="wa-caixa">
+        <button type="button" class="wa-fechar" id="wa-fechar" aria-label="Fechar">&times;</button>
+        <h3 id="wa-modal-titulo">Falar no WhatsApp</h3>
+        <p>Deixe seu nome e telefone que a gente já abre a conversa.</p>
+        <form id="wa-form" novalidate>
+            <input type="text" id="wa-nome" class="wa-campo" placeholder="Seu nome" autocomplete="name" required>
+            <input type="tel"  id="wa-tel"  class="wa-campo" placeholder="(62) 99999-9999" autocomplete="tel" required>
+            <button type="submit" class="wa-enviar" id="wa-enviar">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+                Abrir o WhatsApp
+            </button>
+        </form>
+    </div>
+</div>
 
 <script>
 // ── Nossa Identidade (shields + acordeão, clone RED HOUSE) ──────────
@@ -947,6 +989,72 @@ function diferenciaisControlar() {
 }
 diferenciaisControlar();
 
+// ── Leads: envio pra planilha ───────────────────────────────────────
+// Cole aqui a URL /exec da implantação do Apps Script (docs/apps-script-leads.gs).
+// Enquanto estiver vazia, nada é enviado — e nenhuma tela quebra por isso.
+var LEADS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxuB2SU5GPoljgigDCgVC7sHblcPXHsV3PwD3VulzQtMnPJUss0I57c2-i2hHHGVXVWuw/exec';
+var WHATSAPP_NUMERO = '5562999811903';
+
+function enviarLead(dados) {
+    if (!LEADS_ENDPOINT) return false;
+    var corpo = JSON.stringify(dados);
+    // sendBeacon sobrevive à navegação; um fetch comum seria cancelado no
+    // instante em que o WhatsApp abre, perdendo justamente o lead mais comum.
+    // text/plain também evita o preflight CORS, que o Apps Script não responde.
+    if (navigator.sendBeacon) {
+        return navigator.sendBeacon(LEADS_ENDPOINT, new Blob([corpo], { type: 'text/plain;charset=UTF-8' }));
+    }
+    fetch(LEADS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: corpo,
+        keepalive: true
+    }).catch(function () {});
+    return true;
+}
+
+// ── Popup do WhatsApp (botão flutuante) ─────────────────────────────
+(function waPopup() {
+    var btn    = document.getElementById('wa-btn');
+    var modal  = document.getElementById('wa-modal');
+    var fechar = document.getElementById('wa-fechar');
+    var form   = document.getElementById('wa-form');
+    var nome   = document.getElementById('wa-nome');
+    var tel    = document.getElementById('wa-tel');
+    if (!btn || !modal || !form || !nome || !tel) return;
+
+    function abrir() {
+        modal.hidden = false;
+        setTimeout(function () { nome.focus(); }, 60);
+    }
+    function sair() { modal.hidden = true; }
+
+    btn.addEventListener('click', abrir);
+    fechar.addEventListener('click', sair);
+    modal.addEventListener('click', function (e) { if (e.target === modal) sair(); });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !modal.hidden) sair();
+    });
+    [nome, tel].forEach(function (c) {
+        c.addEventListener('input', function () { c.style.borderColor = ''; });
+    });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var n = nome.value.trim(), t = tel.value.trim();
+        if (!n || !t) { (!n ? nome : tel).style.borderColor = '#C21233'; (!n ? nome : tel).focus(); return; }
+
+        enviarLead({ nome: n, telefone: t, origem: 'Popup WhatsApp site' });
+
+        // aberto de forma síncrona, ainda dentro do clique: se fosse dentro de
+        // uma promise, o bloqueador de pop-ups do navegador barraria a janela
+        var texto = 'Olá! Meu nome é ' + n + ' e vim pelo site do Colégio Uno Sales.';
+        window.open('https://wa.me/' + WHATSAPP_NUMERO + '?text=' + encodeURIComponent(texto), '_blank', 'noopener');
+        sair();
+        form.reset();
+    });
+})();
+
 // ── Som do Hero (autoplay mudo + clique pra ouvir, padrão VSL) ──────
 // Nenhum navegador deixa um vídeo dar autoplay com som: sem gesto do usuário
 // o play() é recusado. Por isso ele começa mudo e o clique é o que libera.
@@ -1189,9 +1297,22 @@ document.getElementById('captacao-form').addEventListener('submit', function (e)
         estudantes: estudantes,
     };
 
-    // TODO: integrar com o CRM do Colégio Uno Sales quando definido — por
-    // enquanto só loga o payload no console (formulário só de front-end).
-    console.log('Captação — dados do formulário:', payload);
+    // A planilha guarda nome, telefone e origem; o resto (estudantes, nível,
+    // turno) vai resumido em "Detalhes" pra nenhuma informação se perder.
+    const detalhes = payload.estudantes.map(function (est) {
+        return est.nome
+            + ' — ' + est.nivel
+            + ', ' + est.turno
+            + ', ano letivo ' + est.anoLetivo
+            + (est.acompanhamentoExterno ? ' (acompanhamento externo)' : '');
+    }).join(' | ');
+
+    enviarLead({
+        nome: (payload.responsavel.nome + ' ' + payload.responsavel.sobrenome).trim(),
+        telefone: payload.responsavel.whatsapp,
+        origem: 'Formulário site',
+        detalhes: detalhes
+    });
 
     document.getElementById('captacao-form').style.display = 'none';
     document.getElementById('captacao-stepper').style.display = 'none';
