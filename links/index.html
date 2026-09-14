@@ -56,6 +56,9 @@
         border: 1.5px solid transparent;
         color: #fff;
         text-decoration: none;
+        font-family: inherit;
+        text-align: left;
+        cursor: pointer;
         font-size: 15px;
         font-weight: 700;
         transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
@@ -112,6 +115,29 @@
         .link, .redes a { transition: none; }
         .link:hover, .redes a:hover { transform: none; }
     }
+
+    /* popup de captura — só no botão de matrículas, que é quem já tem
+       intenção declarada e aceita um passo a mais. O "Fale conosco" segue
+       direto pro WhatsApp, pra quem só quer tirar uma dúvida rápida. */
+    .modal { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center;
+             background: rgba(10,10,10,0.6); backdrop-filter: blur(3px); padding: 20px; }
+    .modal[hidden] { display: none !important; }
+    .modal-caixa { position: relative; width: 100%; max-width: 380px; background: #fff; border-radius: 18px;
+                   padding: 30px 24px 24px; box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
+    .modal-caixa h3 { margin: 0 0 6px; font-size: 18px; font-weight: 900; color: #0A0F2E; }
+    .modal-caixa p  { margin: 0 0 18px; font-size: 13px; line-height: 1.5; color: rgba(26,26,26,0.6); }
+    .modal-campo { width: 100%; border-radius: 10px; padding: 13px 16px; margin-bottom: 11px;
+                   border: 1px solid rgba(26,26,26,0.15); background: rgba(26,26,26,0.04);
+                   font-size: 15px; font-family: inherit; color: #1a1a1a; outline: none; transition: border-color .2s; }
+    .modal-campo:focus { border-color: #25D366; }
+    .modal-ok { width: 100%; border: 0; border-radius: 10px; padding: 14px; margin-top: 5px; cursor: pointer;
+                background: #25D366; color: #fff; font-size: 15px; font-weight: 900; font-family: inherit;
+                display: flex; align-items: center; justify-content: center; gap: 9px; }
+    .modal-ok:hover { filter: brightness(0.94); }
+    .modal-x { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border: 0; border-radius: 50%;
+               background: transparent; color: #8a8378; cursor: pointer; font-size: 22px; line-height: 1;
+               display: flex; align-items: center; justify-content: center; }
+    .modal-x:hover { background: rgba(26,26,26,0.06); }
 </style>
 </head>
 <body>
@@ -123,14 +149,15 @@
         <p>11ª Avenida, 551 - St. Leste Vila Nova<br>Goiânia, GO</p>
     </div>
 
-    <!-- vai pro WhatsApp com a mensagem já escrita: o pai chega na conversa
-         com o assunto declarado, e o atendimento sabe do que se trata -->
-    <a class="link link--destaque" href="https://wa.me/5562999811903?text=Ol%C3%A1!%20Vim%20pelo%20Instagram%20e%20gostaria%20de%20saber%20sobre%20as%20matr%C3%ADculas%202027." target="_blank" rel="noopener">
+    <!-- pede nome e telefone antes de abrir a conversa: é o que permite o
+         lead da bio chegar na planilha. Indo direto pro wa.me, nada é
+         registrado, porque o visitante não passa por nenhuma tela nossa. -->
+    <button type="button" class="link link--destaque" id="btn-matriculas">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5"/></svg>
         <span class="rotulo">Matrículas 2027 abertas
             <span class="sub">Garanta a vaga do seu filho</span>
         </span>
-    </a>
+    </button>
 
     <a class="link link--zap" href="https://wa.me/5562999811903?text=Ol%C3%A1!%20Vim%20pelo%20Instagram%20do%20Col%C3%A9gio%20Uno%20Sales." target="_blank" rel="noopener">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35Z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.24 8.23Z"/></svg>
@@ -167,6 +194,84 @@
     </p>
 
 </div>
+
+<div id="modal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <div class="modal-caixa">
+        <button type="button" class="modal-x" id="modal-x" aria-label="Fechar">&times;</button>
+        <h3 id="modal-titulo">Matrículas 2027</h3>
+        <p>Deixe seu nome e telefone que a gente já abre a conversa no WhatsApp.</p>
+        <form id="modal-form" novalidate>
+            <input type="text" id="modal-nome" class="modal-campo" placeholder="Seu nome" autocomplete="name" required>
+            <input type="tel"  id="modal-tel"  class="modal-campo" placeholder="(62) 99999-9999" autocomplete="tel" required>
+            <button type="submit" class="modal-ok">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+                Abrir o WhatsApp
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+var LEADS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxuB2SU5GPoljgigDCgVC7sHblcPXHsV3PwD3VulzQtMnPJUss0I57c2-i2hHHGVXVWuw/exec';
+var WHATSAPP_NUMERO = '5562999811903';
+
+function enviarLead(dados) {
+    if (!LEADS_ENDPOINT) return false;
+    var corpo = JSON.stringify(dados);
+    // sendBeacon sobrevive à navegação; um fetch seria cancelado no instante
+    // em que o WhatsApp abre — justamente o caso mais comum aqui.
+    if (navigator.sendBeacon) {
+        return navigator.sendBeacon(LEADS_ENDPOINT, new Blob([corpo], { type: 'text/plain;charset=UTF-8' }));
+    }
+    fetch(LEADS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: corpo,
+        keepalive: true
+    }).catch(function () {});
+    return true;
+}
+
+(function captura() {
+    var btn   = document.getElementById('btn-matriculas');
+    var modal = document.getElementById('modal');
+    var x     = document.getElementById('modal-x');
+    var form  = document.getElementById('modal-form');
+    var nome  = document.getElementById('modal-nome');
+    var tel   = document.getElementById('modal-tel');
+    if (!btn || !modal || !form) return;
+
+    function sair() { modal.hidden = true; }
+
+    btn.addEventListener('click', function () {
+        modal.hidden = false;
+        setTimeout(function () { nome.focus(); }, 60);
+    });
+    x.addEventListener('click', sair);
+    modal.addEventListener('click', function (e) { if (e.target === modal) sair(); });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !modal.hidden) sair();
+    });
+    [nome, tel].forEach(function (c) {
+        c.addEventListener('input', function () { c.style.borderColor = ''; });
+    });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var n = nome.value.trim(), t = tel.value.trim();
+        if (!n || !t) { (!n ? nome : tel).style.borderColor = '#C21233'; (!n ? nome : tel).focus(); return; }
+
+        enviarLead({ nome: n, telefone: t, origem: 'Link da bio', detalhes: 'Interesse em matrículas 2027' });
+
+        // aberto de forma síncrona, ainda dentro do clique: dentro de uma
+        // promise o bloqueador de pop-ups do navegador barraria a janela
+        var texto = 'Olá! Meu nome é ' + n + '. Vim pelo Instagram e gostaria de saber sobre as matrículas 2027.';
+        window.open('https://wa.me/' + WHATSAPP_NUMERO + '?text=' + encodeURIComponent(texto), '_blank', 'noopener');
+        sair();
+        form.reset();
+    });
+})();
+</script>
 
 </body>
 </html>
