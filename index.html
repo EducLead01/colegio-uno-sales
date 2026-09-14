@@ -210,8 +210,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="relative flex items-center justify-between h-18" style="height:72px;">
 
-            <!-- Nav esquerda (desktop) -->
-            <nav class="hidden md:flex items-center gap-8 text-xs font-black">
+            <!-- Nav esquerda (desktop) — flex-1 + justify-end encosta os links no
+                 centro, e o padding abre espaço pra logo (que é absoluta e não
+                 ocupa lugar no flex). Sem isso os links iam pras bordas da tela. -->
+            <nav class="hidden md:flex flex-1 items-center justify-end gap-8 text-xs font-black" style="padding-right:112px;">
                 <a href="#quem-somos" class="nav-link">Quem Somos</a>
                 <a href="#matriculas" class="nav-link">Níveis de Ensino</a>
             </nav>
@@ -224,7 +226,8 @@
             <!-- Nav direita (desktop) -->
             <!-- "Portal Uno Sales" removido: apontava pra portal.colegiounosales.com.br,
                  domínio que não existe (NXDOMAIN). Recolocar quando houver endereço. -->
-            <nav class="hidden md:flex items-center gap-8 text-xs font-black">
+            <nav class="hidden md:flex flex-1 items-center justify-start gap-8 text-xs font-black" style="padding-left:112px;">
+                <a href="#pilares" class="nav-link">Metodologia</a>
                 <a href="#novidades" class="nav-link">Novidades</a>
             </nav>
 
@@ -247,6 +250,7 @@
         <div class="px-6 pb-6 pt-2" style="display:flex;flex-direction:column;gap:22px;">
             <a href="#quem-somos"     class="mobile-menu-item font-bold" style="color:#0A0F2E;font-size:18px;">Quem Somos</a>
             <a href="#matriculas"     class="mobile-menu-item font-bold" style="color:#0A0F2E;font-size:18px;">Níveis de Ensino</a>
+            <a href="#pilares"        class="mobile-menu-item font-bold" style="color:#0A0F2E;font-size:18px;">Metodologia</a>
             <a href="#novidades"      class="mobile-menu-item font-bold" style="color:#0A0F2E;font-size:18px;">Novidades</a>
         </div>
     </div>
