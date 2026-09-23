@@ -233,6 +233,20 @@
 var LEADS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxuB2SU5GPoljgigDCgVC7sHblcPXHsV3PwD3VulzQtMnPJUss0I57c2-i2hHHGVXVWuw/exec';
 var WHATSAPP_NUMERO = '5562999811903';
 
+// Avisa o FunnelMax da conversão. Ele rastreia as visitas sozinho, mas o lead
+// precisa ser declarado — sem isso ele não tem o que repassar pro Meta.
+function rastrearLead(nome, telefone, origem) {
+    try {
+        if (typeof window.FunnelMax === 'undefined') return;
+        if (typeof window.FunnelMax.identify === 'function') {
+            window.FunnelMax.identify({ name: nome, phone: telefone });
+        }
+        if (typeof window.FunnelMax.track === 'function') {
+            window.FunnelMax.track('Lead', { origem: origem, nome: nome, telefone: telefone });
+        }
+    } catch (e) {}   // rastreamento nunca pode impedir o lead de ser enviado
+}
+
 function enviarLead(dados) {
     if (!LEADS_ENDPOINT) return false;
     var corpo = JSON.stringify(dados);
@@ -309,6 +323,7 @@ function enviarLead(dados) {
         if (!n || !t) { (!n ? nome : tel).style.borderColor = '#C21233'; (!n ? nome : tel).focus(); return; }
 
         enviarLead({ nome: n, telefone: t, origem: 'Link da bio', detalhes: atual.detalhes });
+        rastrearLead(n, t, 'Link da bio');
 
         // aberto de forma síncrona, ainda dentro do clique: dentro de uma
         // promise o bloqueador de pop-ups do navegador barraria a janela
