@@ -14,6 +14,28 @@
       defer
     ></script>
 
+    <!-- Pixel do Meta — SOMENTE PageView, de propósito.
+         As conversões (Lead, Purchase) vão pelo servidor, via FunnelMax. Se o
+         pixel também disparasse Lead, o event_id gerado aqui não bateria com o
+         do FunnelMax, o Meta não reconheceria como o mesmo evento e contaria
+         duas vezes. Cada um manda eventos diferentes: sem sobreposição.
+         O PageView existe pra montar público de remarketing — sem ele, quem
+         visita e não converte fica invisível pro Meta. -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1100998286219730');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1100998286219730&ev=PageView&noscript=1" alt=""></noscript>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
